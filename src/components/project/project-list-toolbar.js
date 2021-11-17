@@ -1,80 +1,124 @@
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   TextField,
-  InputAdornment,
-  SvgIcon,
-  Typography
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material';
-import { Download as DownloadIcon } from '../../icons/download';
-import { Search as SearchIcon } from '../../icons/search';
-import { Upload as UploadIcon } from '../../icons/upload';
-import { LatestProjects } from '../dashboard/latest-projects';
+import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 
-export const ProjectListToolbar = (props) => (
-  <Box {...props}>
-    <Box
-      sx={{
-        alignItems: 'center',
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        m: -1
-      }}
-    >
-      <Typography
-        sx={{ m: 1 }}
-        variant="h4"
+export const ProjectListToolbar = (props) => {
+  const [dialog, setDialog] = useState(false);
+
+  const currentDate = new Date();
+
+  const [values, setValues] = useState({
+    id: '',
+    title: '',
+    description: '',
+    createdAt: currentDate.getDate()
+      + '/'
+      + (currentDate.getMonth() + 1)
+      + '/'
+      + currentDate.getFullYear(),
+    numberOfMembers: 0
+  });
+
+  const handleChange = (event) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
+      id: uuid()
+    });
+  };
+
+  const openDialog = () => {
+    setDialog(true);
+  };
+
+  const closeDialog = () => {
+    setDialog(false);
+    setValues({
+      ...values,
+      title: '',
+      description: ''
+    });
+  };
+
+  return (
+    <Box {...props}>
+      <Box
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          m: -1
+        }}
       >
-        Projects
-      </Typography>
-      <Box sx={{ m: 1 }}>
-        <Button
-          startIcon={(<UploadIcon fontSize="small"/>)}
-          sx={{ mr: 1 }}
+        <Typography
+          sx={{ m: 1 }}
+          variant="h4"
         >
-          Import
-        </Button>
-        <Button
-          startIcon={(<DownloadIcon fontSize="small"/>)}
-          sx={{ mr: 1 }}
-        >
-          Export
-        </Button>
-        <Button
-          color="primary"
-          variant="contained"
-        >
-          Add projects
-        </Button>
+          Projects
+        </Typography>
+        <Box sx={{ m: 1 }}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={openDialog}
+          >
+            Add Project
+          </Button>
+        </Box>
       </Box>
+      <Box sx={{ mt: 3 }}>
+      </Box>
+      <Dialog onClose={closeDialog} open={dialog}>
+        <DialogTitle>
+          Add Project
+        </DialogTitle>
+        <DialogContent>
+          <Typography marginBottom={1}>
+            Enter your project details in the following text fields:
+          </Typography>
+          <TextField
+            fullWidth
+            placeholder="Project Title"
+            name="title"
+            value={values.title}
+            onChange={handleChange}
+            margin={'dense'}
+          />
+          <TextField
+            fullWidth
+            placeholder="Project Description"
+            name="description"
+            value={values.description}
+            onChange={handleChange}
+            margin={'dense'}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDialog}>
+            Cancel
+          </Button>
+          <Button
+            onClick={function () {
+              props.addProject(values);
+              closeDialog();
+            }}
+            autoFocus
+            disabled={values.title === '' || values.description === ''}
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
-    <Box sx={{ mt: 3 }}>
-      <Card>
-        <CardContent>
-          <Box sx={{ maxWidth: 500 }}>
-            <TextField
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SvgIcon
-                      fontSize="small"
-                      color="action"
-                    >
-                      <SearchIcon/>
-                    </SvgIcon>
-                  </InputAdornment>
-                )
-              }}
-              placeholder="Search project"
-              variant="outlined"
-            />
-          </Box>
-        </CardContent>
-      </Card>
-    </Box>
-  </Box>
-);
+  );
+};

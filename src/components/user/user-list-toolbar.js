@@ -45,7 +45,7 @@ export const UserListToolbar = (props) => (
           color="primary"
           variant="contained"
         >
-          Add Users
+          Add User
         </Button>
       </Box>
     </Box>
