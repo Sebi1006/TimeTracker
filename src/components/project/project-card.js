@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
 import { Clock as ClockIcon } from '../../icons/clock';
-import { Download as DownloadIcon } from '../../icons/download';
+import { User as UserIcon } from '../../icons/user';
 
 export const ProjectCard = ({ project, ...rest }) => (
   <Card
@@ -13,19 +13,6 @@ export const ProjectCard = ({ project, ...rest }) => (
     {...rest}
   >
     <CardContent>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          pb: 3
-        }}
-      >
-        <Avatar
-          alt="Project"
-          src={project.media}
-          variant="square"
-        />
-      </Box>
       <Typography
         align="center"
         color="textPrimary"
@@ -64,7 +51,7 @@ export const ProjectCard = ({ project, ...rest }) => (
             sx={{ pl: 1 }}
             variant="body2"
           >
-            Updated 2hr ago
+            Created on {project.createdAt}
           </Typography>
         </Grid>
         <Grid
@@ -74,16 +61,14 @@ export const ProjectCard = ({ project, ...rest }) => (
             display: 'flex'
           }}
         >
-          <DownloadIcon color="action"/>
+          <UserIcon color="action"/>
           <Typography
             color="textSecondary"
             display="inline"
             sx={{ pl: 1 }}
             variant="body2"
           >
-            {project.totalDownloads}
-            {' '}
-            Downloads
+            {project.numberOfMembers} members
           </Typography>
         </Grid>
       </Grid>

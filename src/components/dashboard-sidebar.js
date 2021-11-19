@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Box, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
 import { ChartBar as ChartBarIcon } from '../icons/chart-bar';
 import { Cog as CogIcon } from '../icons/cog';
 import { Lock as LockIcon } from '../icons/lock';
@@ -34,9 +33,9 @@ const items = [
     title: 'Users'
   },
   {
-    href: '/projects',
+    href: '/projects-tags',
     icon: (<ShoppingBagIcon fontSize="small"/>),
-    title: 'Projects'
+    title: 'Projects & Tags'
   },
   {
     href: '/account',

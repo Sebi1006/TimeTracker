@@ -11,27 +11,18 @@ import {
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
-export const ProjectListToolbar = (props) => {
+export const TagListToolbar = (props) => {
   const [dialog, setDialog] = useState(false);
-
-  const currentDate = new Date();
 
   const [values, setValues] = useState({
     id: '',
-    title: '',
-    description: '',
-    createdAt: currentDate.getDate()
-      + '/'
-      + (currentDate.getMonth() + 1)
-      + '/'
-      + currentDate.getFullYear(),
-    numberOfMembers: 0
+    name: ''
   });
 
   const handleChange = (event) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value,
+      name: event.target.value,
       id: uuid()
     });
   };
@@ -44,8 +35,7 @@ export const ProjectListToolbar = (props) => {
     setDialog(false);
     setValues({
       ...values,
-      title: '',
-      description: ''
+      name: ''
     });
   };
 
@@ -64,7 +54,7 @@ export const ProjectListToolbar = (props) => {
           sx={{ m: 1 }}
           variant="h4"
         >
-          Projects
+          Tags
         </Typography>
         <Box sx={{ m: 1 }}>
           <Button
@@ -72,7 +62,7 @@ export const ProjectListToolbar = (props) => {
             variant="contained"
             onClick={openDialog}
           >
-            Add Project
+            Add Tag
           </Button>
         </Box>
       </Box>
@@ -80,25 +70,17 @@ export const ProjectListToolbar = (props) => {
       </Box>
       <Dialog onClose={closeDialog} open={dialog}>
         <DialogTitle>
-          Add Project
+          Add Tag
         </DialogTitle>
         <DialogContent>
           <Typography marginBottom={1}>
-            Enter your project details in the following text fields:
+            Enter the tag name you want to create:
           </Typography>
           <TextField
             fullWidth
-            placeholder="Project Title"
-            name="title"
-            value={values.title}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <TextField
-            fullWidth
-            placeholder="Project Description"
-            name="description"
-            value={values.description}
+            placeholder="Tag Name"
+            name="tag"
+            value={values.name}
             onChange={handleChange}
             margin={'dense'}
           />
@@ -109,11 +91,11 @@ export const ProjectListToolbar = (props) => {
           </Button>
           <Button
             onClick={function () {
-              props.addProject(values);
+              props.addTag(values);
               closeDialog();
             }}
             autoFocus
-            disabled={values.title === '' || values.description === ''}
+            disabled={values.name === ''}
           >
             Submit
           </Button>
