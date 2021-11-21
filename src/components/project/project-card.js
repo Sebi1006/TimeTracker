@@ -68,7 +68,7 @@ export const ProjectCard = ({ project, ...rest }) => (
             sx={{ pl: 1 }}
             variant="body2"
           >
-            {project.numberOfMembers} members
+            {project.members.length} members
           </Typography>
         </Grid>
       </Grid>

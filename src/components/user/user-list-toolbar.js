@@ -114,7 +114,7 @@ export const UserListToolbar = (props) => {
           </Typography>
           <TextField
             fullWidth
-            placeholder="First Name"
+            label="First Name"
             name="firstName"
             value={values.firstName}
             onChange={handleChange}
@@ -122,7 +122,7 @@ export const UserListToolbar = (props) => {
           />
           <TextField
             fullWidth
-            placeholder="Last Name"
+            label="Last Name"
             name="lastName"
             value={values.lastName}
             onChange={handleChange}
@@ -130,7 +130,7 @@ export const UserListToolbar = (props) => {
           />
           <TextField
             fullWidth
-            placeholder="Email Address"
+            label="Email Address"
             name="email"
             value={values.email}
             onChange={handleChange}
@@ -138,13 +138,13 @@ export const UserListToolbar = (props) => {
           />
           <TextField
             fullWidth
-            placeholder="Phone Number (optional)"
+            label="Phone Number (optional)"
             name="phone"
             value={values.phone}
             onChange={handleChange}
             margin={'dense'}
           />
-          <Box sx={{ marginTop: 2 }}>
+          <Box sx={{ marginTop: 1 }}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 label="Entrance Date"
