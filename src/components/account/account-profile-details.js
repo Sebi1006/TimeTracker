@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { jobroles } from '../../__mocks__/jobroles';
 import {
   Box,
   Button,
@@ -32,7 +33,8 @@ export const AccountProfileDetails = (props) => {
     email: 'demo@devias.io',
     phone: '',
     state: 'Alabama',
-    country: 'USA'
+    country: 'USA',
+    jobrole: 'Job 1'
   });
 
   const handleChange = (event) => {
@@ -105,7 +107,7 @@ export const AccountProfileDetails = (props) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid
+{/*            <Grid
               item
               md={6}
               xs={12}
@@ -119,8 +121,8 @@ export const AccountProfileDetails = (props) => {
                 value={values.phone}
                 variant="outlined"
               />
-            </Grid>
-            <Grid
+            </Grid>*/}
+{/*            <Grid
               item
               md={6}
               xs={12}
@@ -134,7 +136,7 @@ export const AccountProfileDetails = (props) => {
                 value={values.country}
                 variant="outlined"
               />
-            </Grid>
+            </Grid>*/}
             <Grid
               item
               md={6}
@@ -142,21 +144,30 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Select State"
-                name="state"
+                label="Select Jobrole"
+                name="jobrole"
                 onChange={handleChange}
                 required
                 select
                 SelectProps={{ native: true }}
-                value={values.state}
+                //value={values.state}
+                value={values.jobrole}
                 variant="outlined"
               >
-                {states.map((option) => (
+{/*                {states.map((option) => (
                   <option
                     key={option.value}
                     value={option.value}
                   >
                     {option.label}
+                  </option>
+                ))}*/}
+                {jobroles.map((option) => (
+                  <option
+                    key={option.id}
+                    value={option.id}
+                  >
+                    {option.name}
                   </option>
                 ))}
               </TextField>
