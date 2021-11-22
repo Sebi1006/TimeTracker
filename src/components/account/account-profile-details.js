@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { jobroles } from '../../__mocks__/jobroles';
 import {
   Box,
   Button,
@@ -11,30 +10,15 @@ import {
   TextField
 } from '@mui/material';
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
-
 export const AccountProfileDetails = (props) => {
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA',
-    jobrole: 'Job 1'
+    id: props.user.id,
+    firstName: props.user.firstName,
+    lastName: props.user.lastName,
+    email: props.user.email,
+    phone: props.user.phone,
+    entranceDate: props.user.entranceDate,
+    avatarUrl: props.user.avatarUrl
   });
 
   const handleChange = (event) => {
@@ -52,8 +36,8 @@ export const AccountProfileDetails = (props) => {
     >
       <Card>
         <CardHeader
-          subheader="The information can be edited"
           title="Profile"
+          subheader="The information below can be edited"
         />
         <Divider/>
         <CardContent>
@@ -68,13 +52,10 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
-                label="First name"
+                label="First Name"
                 name="firstName"
-                onChange={handleChange}
-                required
                 value={values.firstName}
-                variant="outlined"
+                onChange={handleChange}
               />
             </Grid>
             <Grid
@@ -84,12 +65,10 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Last name"
+                label="Last Name"
                 name="lastName"
-                onChange={handleChange}
-                required
                 value={values.lastName}
-                variant="outlined"
+                onChange={handleChange}
               />
             </Grid>
             <Grid
@@ -101,13 +80,11 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="Email Address"
                 name="email"
-                onChange={handleChange}
-                required
                 value={values.email}
-                variant="outlined"
+                onChange={handleChange}
               />
             </Grid>
-{/*            <Grid
+            <Grid
               item
               md={6}
               xs={12}
@@ -116,61 +93,9 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="Phone Number"
                 name="phone"
-                onChange={handleChange}
-                type="number"
                 value={values.phone}
-                variant="outlined"
-              />
-            </Grid>*/}
-{/*            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Country"
-                name="country"
                 onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
               />
-            </Grid>*/}
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Select Jobrole"
-                name="jobrole"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                //value={values.state}
-                value={values.jobrole}
-                variant="outlined"
-              >
-{/*                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}*/}
-                {jobroles.map((option) => (
-                  <option
-                    key={option.id}
-                    value={option.id}
-                  >
-                    {option.name}
-                  </option>
-                ))}
-              </TextField>
             </Grid>
           </Grid>
         </CardContent>
@@ -185,6 +110,7 @@ export const AccountProfileDetails = (props) => {
           <Button
             color="primary"
             variant="contained"
+            disabled={values.firstName === '' || values.lastName === '' || values.email === ''}
           >
             Save details
           </Button>
