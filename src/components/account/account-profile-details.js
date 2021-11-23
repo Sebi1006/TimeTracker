@@ -112,7 +112,7 @@ export const AccountProfileDetails = (props) => {
             variant="contained"
             disabled={values.firstName === '' || values.lastName === '' || values.email === ''}
           >
-            Save details
+            Save Details
           </Button>
         </Box>
       </Card>

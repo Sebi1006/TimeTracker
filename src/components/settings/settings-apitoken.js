@@ -17,19 +17,17 @@ export const SettingsAPIToken = (props) => {
     <form {...props}>
       <Card>
         <CardHeader
-          subheader="API Token"
-          title="Generate API Token"
+          title="API Token"
+          subheader="Generate an API token"
         />
         <Divider/>
         <CardContent>
           <TextField
             fullWidth
             label="API Token"
-            margin="normal"
             name="token"
-            onChange={handleChange}
             value={values.token}
-            variant="outlined"
+            onChange={handleChange}
           />
         </CardContent>
         <Divider/>
