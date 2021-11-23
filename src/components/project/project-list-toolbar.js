@@ -6,13 +6,18 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  MenuItem,
+  Checkbox
 } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import { users } from '../../__mocks__/users';
 
 export const ProjectListToolbar = (props) => {
   const [dialog, setDialog] = useState(false);
+
+  const [user, setUser] = useState([]);
 
   const currentDate = new Date();
 
@@ -25,8 +30,17 @@ export const ProjectListToolbar = (props) => {
       + (currentDate.getMonth() + 1)
       + '/'
       + currentDate.getFullYear(),
-    numberOfMembers: 0
+    members: []
   });
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const addMember = (member) => useCallback(() => {
+    if (user.includes(member)) {
+      setUser(user.filter(item => item !== member));
+    } else {
+      setUser(user => [...user, member]);
+    }
+  }, [user, member]);
 
   const handleChange = (event) => {
     setValues({
@@ -36,17 +50,30 @@ export const ProjectListToolbar = (props) => {
     });
   };
 
+  const updateMembers = () => {
+    let users = [];
+    user.map((current) => users.push(current.id));
+    setValues({
+      ...values,
+      members: users
+    });
+  };
+
   const openDialog = () => {
     setDialog(true);
   };
 
   const closeDialog = () => {
     setDialog(false);
+
     setValues({
       ...values,
       title: '',
-      description: ''
+      description: '',
+      members: []
     });
+
+    setUser([]);
   };
 
   return (
@@ -88,7 +115,7 @@ export const ProjectListToolbar = (props) => {
           </Typography>
           <TextField
             fullWidth
-            placeholder="Project Title"
+            label="Project Title"
             name="title"
             value={values.title}
             onChange={handleChange}
@@ -96,12 +123,39 @@ export const ProjectListToolbar = (props) => {
           />
           <TextField
             fullWidth
-            placeholder="Project Description"
+            label="Project Description"
             name="description"
             value={values.description}
             onChange={handleChange}
             margin={'dense'}
           />
+          <TextField
+            fullWidth
+            label="Add members"
+            select
+            value={user}
+            onClick={updateMembers}
+            margin={'dense'}
+            SelectProps={{
+              multiple: true,
+              renderValue: selected => selected.map(x => user.find((element) => {
+                  return element.id === x.id;
+                })
+                && user.find((element) => {return element.id === x.id;}).firstName.charAt(0)
+                + '. '
+                + user.find((element) => {return element.id === x.id;}).lastName).join(', ')
+            }}
+          >
+            {users.map((current) => (
+              <MenuItem key={current.id} value={current.id}>
+                <Checkbox
+                  checked={user.includes(current)}
+                  onChange={addMember(current)}
+                />
+                {current.firstName + ' ' + current.lastName}
+              </MenuItem>
+            ))}
+          </TextField>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog}>
