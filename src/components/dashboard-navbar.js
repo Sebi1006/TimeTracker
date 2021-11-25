@@ -2,14 +2,13 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import {
   AppBar,
-  Avatar,
   Box,
-  IconButton,
+  IconButton, MenuList,
   Toolbar,
   Typography
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { UserCircle as UserCircleIcon } from '../icons/user-circle';
+import { AccountMenu } from './menu/account-menu';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -58,16 +57,9 @@ export const DashboardNavbar = (props) => {
             Time Tracker
           </Typography>
           <Box sx={{ flexGrow: 1 }}/>
-          <Avatar
-            sx={{
-              height: 40,
-              width: 40,
-              ml: 1
-            }}
-            src="/static/images/avatars/avatar_1.png"
-          >
-            <UserCircleIcon fontSize="small"/>
-          </Avatar>
+          <MenuList>
+            <AccountMenu/>
+          </MenuList>
           <Box sx={{ mr: 1 }}/>
         </Toolbar>
       </DashboardNavbarRoot>
