@@ -9,15 +9,6 @@ import {
   Typography
 } from '@mui/material';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
-};
-
 export const AccountProfile = (props) => (
   <Card {...props}>
     <CardContent>
@@ -29,7 +20,7 @@ export const AccountProfile = (props) => (
         }}
       >
         <Avatar
-          src={user.avatar}
+          src={props.user.avatarUrl}
           sx={{
             height: 64,
             mb: 2,
@@ -41,19 +32,13 @@ export const AccountProfile = (props) => (
           gutterBottom
           variant="h5"
         >
-          {user.name}
+          {props.user.firstName + ' ' + props.user.lastName}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
-          {`${user.city} ${user.country}`}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {user.timezone}
+          Entrance Date: {props.user.entranceDate}
         </Typography>
       </Box>
     </CardContent>
@@ -64,7 +49,7 @@ export const AccountProfile = (props) => (
         fullWidth
         variant="text"
       >
-        Upload picture
+        Upload Picture
       </Button>
     </CardActions>
   </Card>

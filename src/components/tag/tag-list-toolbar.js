@@ -78,7 +78,7 @@ export const TagListToolbar = (props) => {
           </Typography>
           <TextField
             fullWidth
-            placeholder="Tag Name"
+            label="Tag Name"
             name="tag"
             value={values.name}
             onChange={handleChange}

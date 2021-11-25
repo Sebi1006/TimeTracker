@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -18,41 +16,8 @@ import {
 import { getInitials } from '../../utils/get-initials';
 
 export const UserListResults = ({ users, ...rest }) => {
-  const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-
-  const handleSelectAll = (event) => {
-    let newSelectedUserIds;
-
-    if (event.target.checked) {
-      newSelectedUserIds = users.map((user) => user.id);
-    } else {
-      newSelectedUserIds = [];
-    }
-
-    setSelectedUserIds(newSelectedUserIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedUserIds.indexOf(id);
-    let newSelectedUserIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedUserIds = newSelectedUserIds.concat(selectedUserIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedUserIds = newSelectedUserIds.concat(selectedUserIds.slice(1));
-    } else if (selectedIndex === selectedUserIds.length - 1) {
-      newSelectedUserIds = newSelectedUserIds.concat(selectedUserIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedUserIds = newSelectedUserIds.concat(
-        selectedUserIds.slice(0, selectedIndex),
-        selectedUserIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedUserIds(newSelectedUserIds);
-  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -65,52 +30,30 @@ export const UserListResults = ({ users, ...rest }) => {
   return (
     <Card {...rest}>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
+        <Box>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedUserIds.length === users.length}
-                    color="primary"
-                    indeterminate={
-                      selectedUserIds.length > 0
-                      && selectedUserIds.length < users.length
-                    }
-                    onChange={handleSelectAll}
-                  />
+                <TableCell>
+                  Full Name
                 </TableCell>
                 <TableCell>
-                  Name
+                  Email Address
                 </TableCell>
                 <TableCell>
-                  Email
+                  Phone Number
                 </TableCell>
                 <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Registration date
+                  Entrance Date
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.slice(0, limit).map((user) => (
+              {users.slice(page * limit, page * limit + limit).map((user) => (
                 <TableRow
                   hover
                   key={user.id}
-                  selected={selectedUserIds.indexOf(user.id) !== -1}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedUserIds.indexOf(user.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, user.id)}
-                      value="true"
-                    />
-                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{
@@ -122,13 +65,13 @@ export const UserListResults = ({ users, ...rest }) => {
                         src={user.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(user.name)}
+                        {getInitials(user.firstName + ' ' + user.lastName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {user.name}
+                        {user.firstName + ' ' + user.lastName}
                       </Typography>
                     </Box>
                   </TableCell>
@@ -136,13 +79,10 @@ export const UserListResults = ({ users, ...rest }) => {
                     {user.email}
                   </TableCell>
                   <TableCell>
-                    {`${user.address.city}, ${user.address.state}, ${user.address.country}`}
-                  </TableCell>
-                  <TableCell>
                     {user.phone}
                   </TableCell>
                   <TableCell>
-                    {format(user.createdAt, 'dd/MM/yyyy')}
+                    {user.entranceDate}
                   </TableCell>
                 </TableRow>
               ))}
