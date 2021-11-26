@@ -6,24 +6,47 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  Card,
+  CardContent,
+  MenuItem
 } from '@mui/material';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import { DatePicker, LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { projects } from '../../__mocks__/projects';
+import { tags } from '../../__mocks__/tags';
 
 export const WorkListToolbar = (props) => {
   const [dialog, setDialog] = useState(false);
+
+  const [workDate, setWorkDate] = useState(new Date());
 
   const currentDate = new Date();
 
   const [values, setValues] = useState({
     id: '',
+    date: currentDate.getDate()
+      + '/'
+      + (currentDate.getMonth() + 1)
+      + '/'
+      + currentDate.getFullYear(),
+    workPackages: [],
+    project: '',
     workingHours: '',
     description: '',
-    project: '',
-    tag: '',
-    date: '',
+    tag: ''
   });
+
+  const handleDate = (date) => {
+    setWorkDate(date);
+
+    setValues({
+      ...values,
+      date: date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+    });
+  };
 
   const handleChange = (event) => {
     setValues({
@@ -39,10 +62,21 @@ export const WorkListToolbar = (props) => {
 
   const closeDialog = () => {
     setDialog(false);
+
+    setWorkDate(new Date());
+
     setValues({
       ...values,
-      title: '',
-      description: ''
+      date: currentDate.getDate()
+        + '/'
+        + (currentDate.getMonth() + 1)
+        + '/'
+        + currentDate.getFullYear(),
+      workPackages: [],
+      project: '',
+      workingHours: '',
+      description: '',
+      tag: ''
     });
   };
 
@@ -83,46 +117,70 @@ export const WorkListToolbar = (props) => {
           <Typography marginBottom={1}>
             Enter your work details in the following text fields:
           </Typography>
-          <TextField
-            fullWidth
-            placeholder="Working hours"
-            name="workingHours"
-            value={values.workingHours}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <TextField
-            fullWidth
-            placeholder="Work Description"
-            name="description"
-            value={values.description}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <TextField
-            fullWidth
-            placeholder="Project"
-            name="project"
-            value={values.project}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <TextField
-            fullWidth
-            placeholder="Tag"
-            name="tag"
-            value={values.tag}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <TextField
-            fullWidth
-            placeholder="Date"
-            name="date"
-            value={values.date}
-            onChange={handleChange}
-            margin={'dense'}
-          />
+          <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="Date"
+                value={workDate}
+                onChange={handleDate}
+                renderInput={(params) => <TextField {...params} />}
+                mask="__/__/____"
+                inputFormat="dd/MM/yyyy"
+                toolbarFormat="dd/MM/yyyy"
+              />
+            </LocalizationProvider>
+          </Box>
+          <Card style={{ backgroundColor: '#F8F8F8' }}>
+            <CardContent>
+              <TextField
+                fullWidth
+                label="Project"
+                name="project"
+                select
+                value={values.project}
+                onChange={handleChange}
+                margin={'dense'}
+              >
+                {projects.map((current) => (
+                  <MenuItem key={current.id} value={current.title}>
+                    {current.title}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                fullWidth
+                label="Working Hours"
+                name="workingHours"
+                type="number"
+                value={values.workingHours}
+                onChange={handleChange}
+                margin={'dense'}
+              />
+              <TextField
+                fullWidth
+                label="Work Description"
+                name="description"
+                value={values.description}
+                onChange={handleChange}
+                margin={'dense'}
+              />
+              <TextField
+                fullWidth
+                label="Tag"
+                name="tag"
+                select
+                value={values.tag}
+                onChange={handleChange}
+                margin={'dense'}
+              >
+                {tags.map((current) => (
+                  <MenuItem key={current.id} value={current.name}>
+                    {current.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </CardContent>
+          </Card>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog}>
@@ -130,11 +188,22 @@ export const WorkListToolbar = (props) => {
           </Button>
           <Button
             onClick={function () {
-              props.addWork(values);
+              props.addWork({
+                id: values.id,
+                date: values.date,
+                workPackages: [
+                  {
+                    project: values.project,
+                    workingHours: Number(values.workingHours),
+                    tag: values.tag,
+                    description: values.description
+                  }
+                ]
+              });
               closeDialog();
             }}
             autoFocus
-            disabled={values.title === '' || values.description === ''}
+            disabled={values.date === ''}
           >
             Submit
           </Button>
