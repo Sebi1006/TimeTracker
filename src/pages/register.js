@@ -6,33 +6,29 @@ import * as Yup from 'yup';
 import {
   Box,
   Button,
-  Checkbox,
   Container,
-  FormHelperText,
   Link,
   TextField,
   Typography
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Register = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: '',
       firstName: '',
       lastName: '',
-      password: '',
-      policy: false
+      email: '',
+      password: ''
     },
     validationSchema: Yup.object({
       email: Yup
         .string()
         .email(
-          'Must be a valid email')
+          'Must be a valid email address')
         .max(255)
         .required(
-          'Email is required'),
+          'Email address is required'),
       firstName: Yup
         .string()
         .max(255)
@@ -47,13 +43,7 @@ const Register = () => {
         .string()
         .max(255)
         .required(
-          'Password is required'),
-      policy: Yup
-        .boolean()
-        .oneOf(
-          [true],
-          'This field must be checked'
-        )
+          'Password is required')
     }),
     onSubmit: () => {
       router.push('/');
@@ -77,31 +67,20 @@ const Register = () => {
         }}
       >
         <Container maxWidth="sm">
-          <NextLink
-            href="/"
-            passHref
-          >
-            <Button
-              component="a"
-              startIcon={<ArrowBackIcon fontSize="small"/>}
-            >
-              Dashboard
-            </Button>
-          </NextLink>
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography
                 color="textPrimary"
                 variant="h4"
               >
-                Create a new account
+                Registration
               </Typography>
               <Typography
                 color="textSecondary"
                 gutterBottom
                 variant="body2"
               >
-                Use your email to create a new account
+                Sign up to create a new account
               </Typography>
             </Box>
             <TextField
@@ -154,43 +133,6 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                ml: -1
-              }}
-            >
-              <Checkbox
-                checked={formik.values.policy}
-                name="policy"
-                onChange={formik.handleChange}
-              />
-              <Typography
-                color="textSecondary"
-                variant="body2"
-              >
-                I have read the
-                {' '}
-                <NextLink
-                  href="#"
-                  passHref
-                >
-                  <Link
-                    color="primary"
-                    underline="always"
-                    variant="subtitle2"
-                  >
-                    Terms and Conditions
-                  </Link>
-                </NextLink>
-              </Typography>
-            </Box>
-            {Boolean(formik.touched.policy && formik.errors.policy) && (
-              <FormHelperText error>
-                {formik.errors.policy}
-              </FormHelperText>
-            )}
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
@@ -216,6 +158,9 @@ const Register = () => {
                 <Link
                   variant="subtitle2"
                   underline="hover"
+                  sx={{
+                    cursor: 'pointer'
+                  }}
                 >
                   Sign In
                 </Link>
