@@ -1,12 +1,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import Avatar from '@mui/material/Avatar';
+import PermIdentity from '@mui/icons-material/PermIdentity';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import NextLink from 'next/link';
@@ -14,20 +15,21 @@ import NextLink from 'next/link';
 export const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Tooltip title="Account settings">
+        <Tooltip title="Account Settings">
           <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-            <Avatar sx={{ width: 32, height: 32 }}
-                    src="/static/images/avatars/avatar_1.png"
-            >
+            <Avatar sx={{ width: 40, height: 40 }} src="/static/images/avatars/avatar_1.png">
               <UserCircleIcon fontSize="small"/>
             </Avatar>
           </IconButton>
@@ -69,7 +71,10 @@ export const AccountMenu = () => {
       >
         <NextLink href={'/account'} passHref>
           <MenuItem>
-            <Avatar/> Profile
+            <ListItemIcon>
+              <PermIdentity fontSize="small"/>
+            </ListItemIcon>
+            Profile
           </MenuItem>
         </NextLink>
         <NextLink href={'/settings'} passHref>
