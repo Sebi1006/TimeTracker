@@ -62,6 +62,7 @@ export const UserListToolbar = (props) => {
 
     setValues({
       ...values,
+      id: '',
       firstName: '',
       lastName: '',
       email: '',

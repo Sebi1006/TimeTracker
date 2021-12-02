@@ -7,16 +7,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Card,
-  CardContent,
-  MenuItem
+  Fab
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { projects } from '../../__mocks__/projects';
-import { tags } from '../../__mocks__/tags';
+import { WorkProjectCard } from './work-project-card';
 
 export const WorkListToolbar = (props) => {
   const [dialog, setDialog] = useState(false);
@@ -33,10 +31,7 @@ export const WorkListToolbar = (props) => {
       + '/'
       + currentDate.getFullYear(),
     workPackages: [],
-    project: '',
-    workingHours: '',
-    description: '',
-    tag: ''
+    numberOfCards: 1
   });
 
   const handleDate = (date) => {
@@ -48,11 +43,18 @@ export const WorkListToolbar = (props) => {
     });
   };
 
-  const handleChange = (event) => {
+  const addWorkPackage = (data) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value,
+      workPackages: [...values.workPackages, data],
       id: uuid()
+    });
+  };
+
+  const addCard = () => {
+    setValues({
+      ...values,
+      numberOfCards: values.numberOfCards + 1
     });
   };
 
@@ -67,16 +69,14 @@ export const WorkListToolbar = (props) => {
 
     setValues({
       ...values,
+      id: '',
       date: currentDate.getDate()
         + '/'
         + (currentDate.getMonth() + 1)
         + '/'
         + currentDate.getFullYear(),
       workPackages: [],
-      project: '',
-      workingHours: '',
-      description: '',
-      tag: ''
+      numberOfCards: 1
     });
   };
 
@@ -130,57 +130,16 @@ export const WorkListToolbar = (props) => {
               />
             </LocalizationProvider>
           </Box>
-          <Card style={{ backgroundColor: '#F8F8F8' }}>
-            <CardContent>
-              <TextField
-                fullWidth
-                label="Project"
-                name="project"
-                select
-                value={values.project}
-                onChange={handleChange}
-                margin={'dense'}
-              >
-                {projects.map((current) => (
-                  <MenuItem key={current.id} value={current.title}>
-                    {current.title}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                fullWidth
-                label="Working Hours"
-                name="workingHours"
-                type="number"
-                value={values.workingHours}
-                onChange={handleChange}
-                margin={'dense'}
-              />
-              <TextField
-                fullWidth
-                label="Work Description"
-                name="description"
-                value={values.description}
-                onChange={handleChange}
-                margin={'dense'}
-              />
-              <TextField
-                fullWidth
-                label="Tag"
-                name="tag"
-                select
-                value={values.tag}
-                onChange={handleChange}
-                margin={'dense'}
-              >
-                {tags.map((current) => (
-                  <MenuItem key={current.id} value={current.name}>
-                    {current.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </CardContent>
-          </Card>
+          {Array(values.numberOfCards).fill(<WorkProjectCard addWorkPackage={addWorkPackage}/>)}
+          <Box sx={{ marginTop: 2, marginLeft: 1 }}>
+            <Fab
+              color="primary"
+              size="small"
+              onClick={addCard}
+            >
+              <AddIcon/>
+            </Fab>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog}>
@@ -191,19 +150,12 @@ export const WorkListToolbar = (props) => {
               props.addWork({
                 id: values.id,
                 date: values.date,
-                workPackages: [
-                  {
-                    project: values.project,
-                    workingHours: Number(values.workingHours),
-                    tag: values.tag,
-                    description: values.description
-                  }
-                ]
+                workPackages: values.workPackages
               });
               closeDialog();
             }}
             autoFocus
-            disabled={values.date === ''}
+            disabled={values.workPackages.length === 0}
           >
             Submit
           </Button>
