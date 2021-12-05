@@ -15,26 +15,33 @@ import {
   Typography
 } from '@mui/material';
 
-const Login = () => {
+const RegisterFree = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: ''
     },
     validationSchema: Yup.object({
       email: Yup
         .string()
-        .email(
-          'Must be a valid email address')
+        .email('Must be a valid email address')
         .max(255)
-        .required(
-          'Email address is required'),
+        .required('Email address is required'),
+      firstName: Yup
+        .string()
+        .max(255)
+        .required('First name is required'),
+      lastName: Yup
+        .string()
+        .max(255)
+        .required('Last name is required'),
       password: Yup
         .string()
         .max(255)
-        .required(
-          'Password is required')
+        .required('Password is required')
     }),
     onSubmit: () => {
       router.push('/');
@@ -45,7 +52,7 @@ const Login = () => {
     <>
       <Head>
         <title>
-          Login | Time Tracker
+          Register Free | Time Tracker
         </title>
       </Head>
       <Box
@@ -67,16 +74,40 @@ const Login = () => {
                     variant="h4"
                     sx={{ marginBottom: 1 }}
                   >
-                    Login
+                    Register
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Sign in on the internal platform
+                    Sign up to create a new account
                   </Typography>
                 </Box>
+                <TextField
+                  error={Boolean(formik.touched.firstName && formik.errors.firstName)}
+                  fullWidth
+                  helperText={formik.touched.firstName && formik.errors.firstName}
+                  label="First Name"
+                  margin="normal"
+                  name="firstName"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.firstName}
+                  variant="outlined"
+                />
+                <TextField
+                  error={Boolean(formik.touched.lastName && formik.errors.lastName)}
+                  fullWidth
+                  helperText={formik.touched.lastName && formik.errors.lastName}
+                  label="Last Name"
+                  margin="normal"
+                  name="lastName"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.lastName}
+                  variant="outlined"
+                />
                 <TextField
                   error={Boolean(formik.touched.email && formik.errors.email)}
                   fullWidth
@@ -112,7 +143,7 @@ const Login = () => {
                     type="submit"
                     variant="contained"
                   >
-                    Sign In Now
+                    Sign Up Now
                   </Button>
                 </Box>
                 <Divider sx={{ marginBottom: 2, marginTop: 1 }}/>
@@ -120,10 +151,10 @@ const Login = () => {
                   color="textSecondary"
                   variant="body2"
                 >
-                  Don&apos;t have an account?
+                  Have an account?
                   {' '}
                   <NextLink
-                    href="/register"
+                    href="/login"
                     passHref
                   >
                     <Link
@@ -133,7 +164,7 @@ const Login = () => {
                         cursor: 'pointer'
                       }}
                     >
-                      Sign Up
+                      Sign In
                     </Link>
                   </NextLink>
                 </Typography>
@@ -146,4 +177,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RegisterFree;
