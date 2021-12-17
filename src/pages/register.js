@@ -1,65 +1,18 @@
 import Head from 'next/head';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import {
   Box,
   Button,
-  Checkbox,
+  Card,
+  CardContent,
   Container,
-  FormHelperText,
-  Link,
-  TextField,
+  Divider,
+  Grid,
   Typography
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CheckIcon from '@mui/icons-material/Check';
+import NextLink from 'next/link';
 
 const Register = () => {
-  const router = useRouter();
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      firstName: '',
-      lastName: '',
-      password: '',
-      policy: false
-    },
-    validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email(
-          'Must be a valid email')
-        .max(255)
-        .required(
-          'Email is required'),
-      firstName: Yup
-        .string()
-        .max(255)
-        .required(
-          'First name is required'),
-      lastName: Yup
-        .string()
-        .max(255)
-        .required(
-          'Last name is required'),
-      password: Yup
-        .string()
-        .max(255)
-        .required(
-          'Password is required'),
-      policy: Yup
-        .boolean()
-        .oneOf(
-          [true],
-          'This field must be checked'
-        )
-    }),
-    onSubmit: () => {
-      router.push('/');
-    }
-  });
-
   return (
     <>
       <Head>
@@ -70,158 +23,321 @@ const Register = () => {
       <Box
         component="main"
         sx={{
-          alignItems: 'center',
-          display: 'flex',
           flexGrow: 1,
-          minHeight: '100%'
+          py: 8
         }}
       >
-        <Container maxWidth="sm">
-          <NextLink
-            href="/"
-            passHref
+        <Container maxWidth={false}>
+          <Typography
+            sx={{ mb: 3 }}
+            variant="h4"
+            align="center"
           >
-            <Button
-              component="a"
-              startIcon={<ArrowBackIcon fontSize="small"/>}
+            Select Your Subscription Plan
+          </Typography>
+          <Grid
+            container
+            spacing={3}
+            sx={{ marginTop: 3 }}
+          >
+            <Grid
+              item
+              lg={4}
+              md={6}
+              xs={12}
             >
-              Dashboard
-            </Button>
-          </NextLink>
-          <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ my: 3 }}>
-              <Typography
-                color="textPrimary"
-                variant="h4"
-              >
-                Create a new account
-              </Typography>
-              <Typography
-                color="textSecondary"
-                gutterBottom
-                variant="body2"
-              >
-                Use your email to create a new account
-              </Typography>
-            </Box>
-            <TextField
-              error={Boolean(formik.touched.firstName && formik.errors.firstName)}
-              fullWidth
-              helperText={formik.touched.firstName && formik.errors.firstName}
-              label="First Name"
-              margin="normal"
-              name="firstName"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.firstName}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.lastName && formik.errors.lastName)}
-              fullWidth
-              helperText={formik.touched.lastName && formik.errors.lastName}
-              label="Last Name"
-              margin="normal"
-              name="lastName"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.lastName}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.email && formik.errors.email)}
-              fullWidth
-              helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
-              margin="normal"
-              name="email"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="email"
-              value={formik.values.email}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
-              fullWidth
-              helperText={formik.touched.password && formik.errors.password}
-              label="Password"
-              margin="normal"
-              name="password"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="password"
-              value={formik.values.password}
-              variant="outlined"
-            />
-            <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                ml: -1
-              }}
-            >
-              <Checkbox
-                checked={formik.values.policy}
-                name="policy"
-                onChange={formik.handleChange}
-              />
-              <Typography
-                color="textSecondary"
-                variant="body2"
-              >
-                I have read the
-                {' '}
-                <NextLink
-                  href="#"
-                  passHref
-                >
-                  <Link
-                    color="primary"
-                    underline="always"
-                    variant="subtitle2"
+              <Card>
+                <CardContent>
+                  <Box
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
                   >
-                    Terms and Conditions
-                  </Link>
-                </NextLink>
-              </Typography>
-            </Box>
-            {Boolean(formik.touched.policy && formik.errors.policy) && (
-              <FormHelperText error>
-                {formik.errors.policy}
-              </FormHelperText>
-            )}
-            <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                disabled={formik.isSubmitting}
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
-                Sign Up Now
-              </Button>
-            </Box>
-            <Typography
-              color="textSecondary"
-              variant="body2"
+                    <Typography
+                      variant="h5"
+                      sx={{ marginBottom: 2 }}
+                    >
+                      Free
+                    </Typography>
+                    <Typography
+                      variant="h4"
+                    >
+                      0€
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      color="gray"
+                    >
+                      per month
+                    </Typography>
+                  </Box>
+                  <Divider sx={{ marginBottom: 2, marginTop: 2 }}/>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        For 1 user only
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Basic time-tracking function
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Sample projects & tags
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Sample company logo
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Sample user list
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Divider sx={{ marginBottom: 3, marginTop: 2 }}/>
+                  <NextLink href={'/register-free'} passHref>
+                    <Button
+                      color="primary"
+                      fullWidth
+                      size="large"
+                      type="submit"
+                      variant="contained"
+                    >
+                      Select Free Plan
+                    </Button>
+                  </NextLink>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              md={6}
+              xs={12}
             >
-              Have an account?
-              {' '}
-              <NextLink
-                href="/login"
-                passHref
-              >
-                <Link
-                  variant="subtitle2"
-                  underline="hover"
-                >
-                  Sign In
-                </Link>
-              </NextLink>
-            </Typography>
-          </form>
+              <Card>
+                <CardContent>
+                  <Box
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      sx={{ marginBottom: 2 }}
+                    >
+                      Premium
+                    </Typography>
+                    <Typography
+                      variant="h4"
+                    >
+                      50€
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      color="gray"
+                    >
+                      per month
+                    </Typography>
+                  </Box>
+                  <Divider sx={{ marginBottom: 2, marginTop: 2 }}/>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Up to 100 users
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Full time-tracking function
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Individual projects & predefined tags
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Profile pictures & individual company logo
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Basic work time analysis
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Divider sx={{ marginBottom: 3, marginTop: 2 }}/>
+                  <NextLink href={'/register-premium'} passHref>
+                    <Button
+                      color="primary"
+                      fullWidth
+                      size="large"
+                      type="submit"
+                      variant="contained"
+                    >
+                      Select Premium Plan
+                    </Button>
+                  </NextLink>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              md={6}
+              xs={12}
+            >
+              <Card>
+                <CardContent>
+                  <Box
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      sx={{ marginBottom: 2 }}
+                    >
+                      Enterprise
+                    </Typography>
+                    <Typography
+                      variant="h4"
+                    >
+                      Individual price
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      color="gray"
+                    >
+                      per month
+                    </Typography>
+                  </Box>
+                  <Divider sx={{ marginBottom: 2, marginTop: 2 }}/>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Number of users depending on organization size
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Full time-tracking function
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Individual projects & tags
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Profile pictures & individual company logo
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" sx={{ marginLeft: 2 }}>
+                    <Grid item sx={{ marginRight: 1 }}>
+                      <CheckIcon/>
+                    </Grid>
+                    <Grid item>
+                      <Typography>
+                        Extended work time & project analysis
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Divider sx={{ marginBottom: 3, marginTop: 2 }}/>
+                  <NextLink href={'/register-enterprise'} passHref>
+                    <Button
+                      color="primary"
+                      fullWidth
+                      size="large"
+                      type="submit"
+                      variant="contained"
+                    >
+                      Select Enterprise Plan
+                    </Button>
+                  </NextLink>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </>
