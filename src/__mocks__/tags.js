@@ -12,5 +12,9 @@ export const tags = [
   {
     id: uuid(),
     name: 'Administration'
+  },
+  {
+    id: uuid(),
+    name: 'Meeting'
   }
 ];

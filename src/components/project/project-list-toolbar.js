@@ -68,6 +68,7 @@ export const ProjectListToolbar = (props) => {
 
     setValues({
       ...values,
+      id: '',
       title: '',
       description: '',
       members: []
