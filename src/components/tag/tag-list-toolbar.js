@@ -35,6 +35,7 @@ export const TagListToolbar = (props) => {
     setDialog(false);
     setValues({
       ...values,
+      id: '',
       name: ''
     });
   };

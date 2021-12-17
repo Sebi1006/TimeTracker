@@ -1,53 +1,60 @@
 import {
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   TextField,
-  Typography
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Fab
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { WorkProjectCard } from './work-project-card';
 
-export const UserListToolbar = (props) => {
+export const WorkListToolbar = (props) => {
   const [dialog, setDialog] = useState(false);
 
-  const [date, setDate] = useState(new Date());
+  const [workDate, setWorkDate] = useState(new Date());
 
   const currentDate = new Date();
 
   const [values, setValues] = useState({
     id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    entranceDate: currentDate.getDate()
+    date: currentDate.getDate()
       + '/'
       + (currentDate.getMonth() + 1)
       + '/'
       + currentDate.getFullYear(),
-    avatarUrl: ''
+    workPackages: [],
+    numberOfCards: 1
   });
 
   const handleDate = (date) => {
-    setDate(date);
+    setWorkDate(date);
 
     setValues({
       ...values,
-      entranceDate: date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+      date: date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
     });
   };
 
-  const handleChange = (event) => {
+  const addWorkPackage = (data) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value,
+      workPackages: [...values.workPackages, data],
       id: uuid()
+    });
+  };
+
+  const addCard = () => {
+    setValues({
+      ...values,
+      numberOfCards: values.numberOfCards + 1
     });
   };
 
@@ -58,21 +65,18 @@ export const UserListToolbar = (props) => {
   const closeDialog = () => {
     setDialog(false);
 
-    setDate(new Date());
+    setWorkDate(new Date());
 
     setValues({
       ...values,
       id: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      entranceDate: currentDate.getDate()
+      date: currentDate.getDate()
         + '/'
         + (currentDate.getMonth() + 1)
         + '/'
         + currentDate.getFullYear(),
-      avatarUrl: ''
+      workPackages: [],
+      numberOfCards: 1
     });
   };
 
@@ -91,7 +95,7 @@ export const UserListToolbar = (props) => {
           sx={{ m: 1 }}
           variant="h4"
         >
-          Users
+          Work Packages
         </Typography>
         <Box sx={{ m: 1 }}>
           <Button
@@ -99,7 +103,7 @@ export const UserListToolbar = (props) => {
             variant="contained"
             onClick={openDialog}
           >
-            Add User
+            Add Work Package
           </Button>
         </Box>
       </Box>
@@ -107,49 +111,17 @@ export const UserListToolbar = (props) => {
       </Box>
       <Dialog onClose={closeDialog} open={dialog}>
         <DialogTitle>
-          Add User
+          Add Work Package
         </DialogTitle>
         <DialogContent>
           <Typography marginBottom={1}>
-            Enter the user details in the following text fields:
+            Enter your work details in the following text fields:
           </Typography>
-          <TextField
-            fullWidth
-            label="First Name"
-            name="firstName"
-            value={values.firstName}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <TextField
-            fullWidth
-            label="Last Name"
-            name="lastName"
-            value={values.lastName}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <TextField
-            fullWidth
-            label="Email Address"
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <TextField
-            fullWidth
-            label="Phone Number (optional)"
-            name="phone"
-            value={values.phone}
-            onChange={handleChange}
-            margin={'dense'}
-          />
-          <Box sx={{ marginTop: 1 }}>
+          <Box sx={{ marginTop: 2, marginBottom: 2 }}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
-                label="Entrance Date"
-                value={date}
+                label="Date"
+                value={workDate}
                 onChange={handleDate}
                 renderInput={(params) => <TextField {...params} />}
                 mask="__/__/____"
@@ -158,6 +130,16 @@ export const UserListToolbar = (props) => {
               />
             </LocalizationProvider>
           </Box>
+          {Array(values.numberOfCards).fill(<WorkProjectCard addWorkPackage={addWorkPackage}/>)}
+          <Box sx={{ marginTop: 2, marginLeft: 1 }}>
+            <Fab
+              color="primary"
+              size="small"
+              onClick={addCard}
+            >
+              <AddIcon/>
+            </Fab>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog}>
@@ -165,11 +147,15 @@ export const UserListToolbar = (props) => {
           </Button>
           <Button
             onClick={function () {
-              props.addUser(values);
+              props.addWork({
+                id: values.id,
+                date: values.date,
+                workPackages: values.workPackages
+              });
               closeDialog();
             }}
             autoFocus
-            disabled={values.firstName === '' || values.lastName === '' || values.email === ''}
+            disabled={values.workPackages.length === 0}
           >
             Submit
           </Button>
