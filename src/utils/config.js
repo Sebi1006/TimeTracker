@@ -17,7 +17,7 @@ export function getApiUrl() {
 export function signUpFree(firstName, lastName, email, password) {
   return fetch(getApiUrl() + '/auth/sign-up', {
     method: 'post',
-    headers: { 'X-Tenant': 'time-tracker-free' },
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
     body: JSON.stringify({
       'email': email,
       'password': password,
@@ -30,15 +30,13 @@ export function signUpFree(firstName, lastName, email, password) {
       ]
     })
   })
-    .then(response => {
-      console.log(response.json());
-    });
+    .then(response => response.json());
 }
 
 export function signInFree(email, password) {
   return fetch(getApiUrl() + '/auth/sign-in', {
     method: 'post',
-    headers: { 'X-Tenant': 'time-tracker-free' },
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
     body: JSON.stringify({
       'username': email,
       'password': password
