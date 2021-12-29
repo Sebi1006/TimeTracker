@@ -14,6 +14,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { signUpFree } from '../utils/config';
 
 const RegisterFree = () => {
   const router = useRouter();
@@ -44,6 +45,10 @@ const RegisterFree = () => {
         .required('Password is required')
     }),
     onSubmit: () => {
+      signUpFree(formik.values.firstName,
+        formik.values.lastName,
+        formik.values.email,
+        formik.values.password);
       router.push('/');
     }
   });
