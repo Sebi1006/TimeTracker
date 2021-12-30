@@ -11,12 +11,37 @@ import {
   Container,
   Divider,
   Link,
+  Typography,
+  Snackbar,
   TextField,
-  Typography
+  Alert
 } from '@mui/material';
+import { signUpFree } from '../utils/config';
+import { useState } from 'react';
 
 const RegisterFree = () => {
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    text: '',
+    severity: 'info',
+    vertical: 'top',
+    horizontal: 'center'
+  });
+
+  const [submit, setSubmit] = useState(false);
+
+  const { vertical, horizontal, open, text, severity } = snackbar;
+
+  const handleOpen = (text, severity) => {
+    setSnackbar({ ...snackbar, open: true, text: text, severity: severity });
+  };
+
+  const handleClose = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
   const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -40,11 +65,31 @@ const RegisterFree = () => {
         .required('Last name is required'),
       password: Yup
         .string()
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,:;_|~@§$€!%*?&#+-])[A-Za-z\d.,:;_|~@§$€!%*?&#+-]{8,}$/,
+          'Must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character'
+        )
         .max(255)
         .required('Password is required')
     }),
     onSubmit: () => {
-      router.push('/');
+      setSubmit(true);
+      signUpFree(formik.values.firstName,
+        formik.values.lastName,
+        formik.values.email,
+        formik.values.password)
+        .then(() => {
+          handleOpen(
+            'User account has been created successfully. You can now sign in with your credentials.',
+            'success');
+          setTimeout(() => {
+            router.push('/login');
+          }, 5000);
+        })
+        .catch(() => {
+          handleOpen('An error occurred while signing up. Please try again later.', 'error');
+          setSubmit(false);
+        });
     }
   });
 
@@ -137,7 +182,7 @@ const RegisterFree = () => {
                 <Box sx={{ py: 2 }}>
                   <Button
                     color="primary"
-                    disabled={formik.isSubmitting}
+                    disabled={submit}
                     fullWidth
                     size="large"
                     type="submit"
@@ -173,6 +218,19 @@ const RegisterFree = () => {
           </Card>
         </Container>
       </Box>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        key={vertical + horizontal}
+        autoHideDuration={5000}
+      >
+        <Alert
+          severity={severity}
+          sx={{ width: '100%' }}>
+          {text}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
