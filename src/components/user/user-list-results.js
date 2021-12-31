@@ -52,7 +52,7 @@ export const UserListResults = ({ users, ...rest }) => {
               {users.slice(page * limit, page * limit + limit).map((user) => (
                 <TableRow
                   hover
-                  key={user.id}
+                  key={user.userId}
                 >
                   <TableCell>
                     <Box

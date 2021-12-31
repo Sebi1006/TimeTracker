@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 export const users = [
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Ekaterina',
     lastName: 'Tankova',
     email: 'ekaterina.tankova@devias.io',
@@ -11,7 +11,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_3.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Cao',
     lastName: 'Yu',
     email: 'cao.yu@devias.io',
@@ -20,7 +20,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_4.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Alexa',
     lastName: 'Richardson',
     email: 'alexa.richardson@devias.io',
@@ -29,7 +29,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_2.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Anje',
     lastName: 'Keizer',
     email: 'anje.keizer@devias.io',
@@ -38,7 +38,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_5.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Clarke',
     lastName: 'Gillebert',
     email: 'clarke.gillebert@devias.io',
@@ -47,7 +47,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_6.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Adam',
     lastName: 'Denisov',
     email: 'adam.denisov@devias.io',
@@ -56,7 +56,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_1.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Ava',
     lastName: 'Gregoraci',
     email: 'ava.gregoraci@devias.io',
@@ -65,7 +65,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_7.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Emilee',
     lastName: 'Simchenko',
     email: 'emilee.simchenko@devias.io',
@@ -74,7 +74,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_8.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Kwak',
     lastName: 'Seong-Min',
     email: 'kwak.seong.min@devias.io',
@@ -83,7 +83,7 @@ export const users = [
     avatarUrl: '/static/images/avatars/avatar_9.png'
   },
   {
-    id: uuid(),
+    userId: uuid(),
     firstName: 'Merrile',
     lastName: 'Burgett',
     email: 'merrile.burgett@devias.io',

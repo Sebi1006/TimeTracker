@@ -11,12 +11,37 @@ import {
   Container,
   Divider,
   Link,
+  Typography,
+  Snackbar,
   TextField,
-  Typography
+  Alert
 } from '@mui/material';
+import { signInFree } from '../utils/config';
+import { useState } from 'react';
 
 const Login = () => {
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    text: 'An error occurred while signing in. Please try again later.',
+    severity: 'error',
+    vertical: 'top',
+    horizontal: 'center'
+  });
+
+  const [submit, setSubmit] = useState(false);
+
+  const { vertical, horizontal, open, text, severity } = snackbar;
+
+  const handleOpen = () => {
+    setSnackbar({ ...snackbar, open: true });
+  };
+
+  const handleClose = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
   const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -37,7 +62,15 @@ const Login = () => {
           'Password is required')
     }),
     onSubmit: () => {
-      router.push('/');
+      setSubmit(true);
+      signInFree(formik.values.email, formik.values.password)
+        .then(() => {
+          router.push('/');
+        })
+        .catch(() => {
+          handleOpen();
+          setSubmit(false);
+        });
     }
   });
 
@@ -106,7 +139,7 @@ const Login = () => {
                 <Box sx={{ py: 2 }}>
                   <Button
                     color="primary"
-                    disabled={formik.isSubmitting}
+                    disabled={submit}
                     fullWidth
                     size="large"
                     type="submit"
@@ -142,6 +175,19 @@ const Login = () => {
           </Card>
         </Container>
       </Box>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        key={vertical + horizontal}
+        autoHideDuration={5000}
+      >
+        <Alert
+          severity={severity}
+          sx={{ width: '100%' }}>
+          {text}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

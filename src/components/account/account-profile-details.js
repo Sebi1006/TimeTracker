@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -12,14 +12,35 @@ import {
 
 export const AccountProfileDetails = (props) => {
   const [values, setValues] = useState({
-    id: props.user.id,
-    firstName: props.user.firstName,
-    lastName: props.user.lastName,
-    email: props.user.email,
-    phone: props.user.phone,
-    entranceDate: props.user.entranceDate,
-    avatarUrl: props.user.avatarUrl
+    userId: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    entranceDate: '',
+    avatarUrl: ''
   });
+
+  useEffect(() => {
+      setValues({
+        userId: props.user.userId,
+        firstName: props.user.firstName,
+        lastName: props.user.lastName,
+        email: props.user.email,
+        phone: props.user.phone || '',
+        entranceDate: props.user.entranceDate,
+        avatarUrl: props.user.avatarUrl || ''
+      });
+    },
+    [
+      props.user.avatarUrl,
+      props.user.email,
+      props.user.entranceDate,
+      props.user.firstName,
+      props.user.lastName,
+      props.user.phone,
+      props.user.userId
+    ]);
 
   const handleChange = (event) => {
     setValues({

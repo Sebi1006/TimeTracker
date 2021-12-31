@@ -21,7 +21,7 @@ export const UserListToolbar = (props) => {
   const currentDate = new Date();
 
   const [values, setValues] = useState({
-    id: '',
+    userId: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -47,7 +47,7 @@ export const UserListToolbar = (props) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
-      id: uuid()
+      userId: uuid()
     });
   };
 
@@ -62,7 +62,7 @@ export const UserListToolbar = (props) => {
 
     setValues({
       ...values,
-      id: '',
+      userId: '',
       firstName: '',
       lastName: '',
       email: '',

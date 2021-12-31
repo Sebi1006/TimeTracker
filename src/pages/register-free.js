@@ -66,7 +66,7 @@ const RegisterFree = () => {
       password: Yup
         .string()
         .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,:;_|~@§$€!%*?&#+-])[A-Za-z\d.,:;_|~@§$€!%*?&#+-]{8,}$/,
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,:;_|~@$!%*?&#+-])[A-Za-z\d.,:;_|~@$!%*?&#+-]{8,}$/,
           'Must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character'
         )
         .max(255)

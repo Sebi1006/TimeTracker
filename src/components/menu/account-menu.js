@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
@@ -11,10 +10,22 @@ import PermIdentity from '@mui/icons-material/PermIdentity';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import NextLink from 'next/link';
+import { signOutFree } from '../../utils/config';
+import { useEffect, useState } from 'react';
 
 export const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const [avatar, setAvatar] = useState('');
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('USER_INFORMATION')) !== null) {
+      if (typeof JSON.parse(localStorage.getItem('USER_INFORMATION')).avatarUrl !== 'undefined') {
+        setAvatar(JSON.parse(localStorage.getItem('USER_INFORMATION')).avatarUrl);
+      }
+    }
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,9 +40,7 @@ export const AccountMenu = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account Settings">
           <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-            <Avatar sx={{ width: 40, height: 40 }} src="/static/images/avatars/avatar_1.png">
-              <UserCircleIcon fontSize="small"/>
-            </Avatar>
+            <Avatar sx={{ width: 40, height: 40 }} src={avatar}/>
           </IconButton>
         </Tooltip>
       </Box>
@@ -85,8 +94,14 @@ export const AccountMenu = () => {
             Settings
           </MenuItem>
         </NextLink>
-        <NextLink href={'/logout'} passHref>
-          <MenuItem>
+        <NextLink href={'/login'} passHref>
+          <MenuItem onClick={() => {
+            const token = JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH'));
+
+            if (token !== null) {
+              signOutFree(token.accessToken);
+            }
+          }}>
             <ListItemIcon>
               <Logout fontSize="small"/>
             </ListItemIcon>
