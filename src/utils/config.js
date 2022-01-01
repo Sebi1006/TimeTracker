@@ -196,3 +196,20 @@ export function signOutFree(token) {
       logout();
     });
 }
+
+export function updatePasswordFree(email, password, passwordConfirm) {
+  return fetch(getApiUrl() + '/auth/change-password', {
+    method: 'put',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
+    body: JSON.stringify({
+      'username': email,
+      'password': password,
+      'passwordConfirm': passwordConfirm
+    })
+  })
+    .then(response => response.json())
+    .then(() => {
+      localStorage.removeItem('USER_INFORMATION');
+      logout();
+    });
+}
