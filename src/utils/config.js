@@ -213,3 +213,36 @@ export function updatePasswordFree(email, password, passwordConfirm) {
       logout();
     });
 }
+
+export function updateAttributesFree(token, firstName, lastName, email, phone) {
+  return fetch(getApiUrl() + '/auth/update-attributes', {
+    method: 'put',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
+    body: JSON.stringify({
+      'token': token,
+      'attributes': [
+        {
+          'name': 'custom:first_name',
+          'value': firstName
+        },
+        {
+          'name': 'custom:last_name',
+          'value': lastName
+        },
+        {
+          'name': 'email',
+          'value': email
+        },
+        {
+          'name': 'custom:phone',
+          'value': phone
+        }
+      ]
+    })
+  })
+    .then(response => response.json())
+    .then(() => {
+      localStorage.removeItem('USER_INFORMATION');
+      logout();
+    });
+}
