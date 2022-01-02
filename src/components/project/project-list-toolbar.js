@@ -52,7 +52,7 @@ export const ProjectListToolbar = (props) => {
 
   const updateMembers = () => {
     let users = [];
-    user.map((current) => users.push(current.id));
+    user.map((current) => users.push(current.userId));
     setValues({
       ...values,
       members: users
@@ -140,15 +140,15 @@ export const ProjectListToolbar = (props) => {
             SelectProps={{
               multiple: true,
               renderValue: selected => selected.map(x => user.find((element) => {
-                  return element.id === x.id;
+                  return element.userId === x.userId;
                 })
-                && user.find((element) => {return element.id === x.id;}).firstName.charAt(0)
+                && user.find((element) => {return element.userId === x.userId;}).firstName.charAt(0)
                 + '. '
-                + user.find((element) => {return element.id === x.id;}).lastName).join(', ')
+                + user.find((element) => {return element.userId === x.userId;}).lastName).join(', ')
             }}
           >
             {users.map((current) => (
-              <MenuItem key={current.id} value={current.id}>
+              <MenuItem key={current.userId} value={current.userId}>
                 <Checkbox
                   checked={user.includes(current)}
                   onChange={addMember(current)}

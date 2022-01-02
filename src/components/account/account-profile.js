@@ -20,7 +20,7 @@ export const AccountProfile = (props) => (
         }}
       >
         <Avatar
-          src={props.user.avatarUrl}
+          src={props.user.avatarUrl || ''}
           sx={{
             height: 64,
             mb: 2,
