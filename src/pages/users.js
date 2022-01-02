@@ -9,12 +9,17 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../utils/config';
 
 const Users = () => {
-  const [user, setUser] = useState(users);
+  const [user, setUser] = useState([]);
+  const [subModel, setSubModel] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   const addUser = (data) => {
     setUser(user => [...user, data]);
+
+    if (subModel !== 'free') {
+      // do post request...
+    }
   };
 
   useEffect(() => {
@@ -23,6 +28,11 @@ const Users = () => {
 
     if (!loggedIn) {
       router.push('/login');
+    }
+
+    if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
+      setUser(users);
+      setSubModel('free');
     }
   }, [router]);
 
