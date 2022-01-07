@@ -1,11 +1,11 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: 'http://localhost:8081' // TODO
+  apiUrl: 'http://localhost:8080' // TODO
 };
 
 const localVars = {
-  apiUrl: 'http://localhost:8081'
+  apiUrl: 'http://localhost:8080'
 };
 
 export function getApiUrl() {
