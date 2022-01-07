@@ -14,8 +14,9 @@ import { useAuth } from '../utils/config';
 const Projects = () => {
   const MAX_PROJECTS_PER_PAGE = 9;
   const [page, setPage] = useState(1);
-  const [project, setProject] = useState(projects);
-  const [tag, setTag] = useState(tags);
+  const [project, setProject] = useState([]);
+  const [tag, setTag] = useState([]);
+  const [subModel, setSubModel] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
@@ -25,10 +26,18 @@ const Projects = () => {
 
   const addProject = (data) => {
     setProject(project => [...project, data]);
+
+    if (subModel !== 'free') {
+      // do post request...
+    }
   };
 
   const addTag = (data) => {
     setTag(tag => [...tag, data]);
+
+    if (subModel !== 'free') {
+      // do post request...
+    }
   };
 
   useEffect(() => {
@@ -37,6 +46,12 @@ const Projects = () => {
 
     if (!loggedIn) {
       router.push('/login');
+    }
+
+    if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
+      setProject(projects);
+      setTag(tags);
+      setSubModel('free');
     }
   }, [router]);
 

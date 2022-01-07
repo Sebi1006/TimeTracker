@@ -54,14 +54,25 @@ export const DashboardSidebar = (props) => {
     noSsr: false
   });
 
-  useEffect(
-    () => {
+  const [values, setValues] = useState({
+    organization: '',
+    subModel: ''
+  });
+
+  useEffect(() => {
       if (!router.isReady) {
         return;
       }
 
       if (open) {
         onClose?.();
+      }
+
+      if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
+        setValues({
+          organization: 'Sample Inc.',
+          subModel: 'Free'
+        });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,7 +109,6 @@ export const DashboardSidebar = (props) => {
               sx={{
                 alignItems: 'center',
                 backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                cursor: 'pointer',
                 display: 'flex',
                 justifyContent: 'space-between',
                 px: 3,
@@ -111,24 +121,15 @@ export const DashboardSidebar = (props) => {
                   color="inherit"
                   variant="subtitle1"
                 >
-                  Acme Inc
+                  {values.organization}
                 </Typography>
                 <Typography
                   color="neutral.400"
                   variant="body2"
                 >
-                  Your tier
-                  {' '}
-                  : Premium
+                  Your tier: {values.subModel}
                 </Typography>
               </div>
-              <SelectorIcon
-                sx={{
-                  color: 'neutral.500',
-                  width: 14,
-                  height: 14
-                }}
-              />
             </Box>
           </Box>
         </div>

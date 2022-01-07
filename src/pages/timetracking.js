@@ -9,12 +9,17 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../utils/config';
 
 const TimeTracking = () => {
-  const [work, setWork] = useState(works);
+  const [work, setWork] = useState([]);
+  const [subModel, setSubModel] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   const addWork = (data) => {
     setWork(work => [...work, data]);
+
+    if (subModel !== 'free') {
+      // do post request...
+    }
   };
 
   useEffect(() => {
@@ -23,6 +28,11 @@ const TimeTracking = () => {
 
     if (!loggedIn) {
       router.push('/login');
+    }
+
+    if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
+      setWork(works);
+      setSubModel('free');
     }
   }, [router]);
 
