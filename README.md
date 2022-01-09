@@ -9,3 +9,11 @@
 - Start the server: `npm run dev` or `yarn dev`
 
 - Views are on: `localhost:3000`
+
+## Starting the application with custom environment variables
+
+- Linux: `NEXT_PUBLIC_TENANT=time-tracker-free npm run dev`
+
+- Windows CMD: `set "NEXT_PUBLIC_TENANT=time-tracker-free" && npm run dev`
+
+- Powershell: `($env:NEXT_PUBLIC_TENANT = "time-tracker-free") -and (npm run dev)`
