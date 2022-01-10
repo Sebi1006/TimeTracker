@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: 'http://localhost:8080' // TODO
+  apiUrl: process.env.NEXT_PUBLIC_API_URL
 };
 
 const localVars = {
@@ -245,4 +245,13 @@ export function updateAttributesFree(token, firstName, lastName, email, phone) {
       localStorage.removeItem('USER_INFORMATION');
       logout();
     });
+}
+
+export function getUsers() {
+  return fetch(getApiUrl() + '/auth/get-users', {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.json())
+    .then(response => console.log(response));
 }

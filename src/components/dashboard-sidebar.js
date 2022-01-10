@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Box, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
 import { ChartBar as ChartBarIcon } from '../icons/chart-bar';
 import { Cog as CogIcon } from '../icons/cog';
-import { Selector as SelectorIcon } from '../icons/selector';
 import { ShoppingBag as ShoppingBagIcon } from '../icons/shopping-bag';
 import { User as UserIcon } from '../icons/user';
 import { Users as UsersIcon } from '../icons/users';
