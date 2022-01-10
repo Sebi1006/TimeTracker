@@ -17,10 +17,14 @@ RUN npm install
 COPY . ./
 
 # Arguments
-ARG REACT_APP_API_BASE_URL
-ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+ARG NEXT_PUBLIC_TENANT
+ENV NEXT_PUBLIC_TENANT=${NEXT_PUBLIC_TENANT}
+
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 # Build and export the application
+RUN npm run build
 RUN npm run export
 
 #### Stage 2: Serve the React application from nginx

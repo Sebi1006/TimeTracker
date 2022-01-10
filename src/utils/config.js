@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: 'http://localhost:8080' // TODO
+  apiUrl: process.env.NEXT_PUBLIC_API_URL
 };
 
 const localVars = {
@@ -130,7 +130,7 @@ const getCurrentDate = () => {
 export function signUpFree(firstName, lastName, email, password) {
   return fetch(getApiUrl() + '/auth/sign-up', {
     method: 'post',
-    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
     body: JSON.stringify({
       'email': email,
       'password': password,
@@ -152,7 +152,7 @@ export function signUpFree(firstName, lastName, email, password) {
 export function signInFree(email, password) {
   return fetch(getApiUrl() + '/auth/sign-in', {
     method: 'post',
-    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
     body: JSON.stringify({
       'username': email,
       'password': password
@@ -188,7 +188,7 @@ export function signInFree(email, password) {
 export function signOutFree(token) {
   return fetch(getApiUrl() + '/auth/logout', {
     method: 'delete',
-    headers: { 'X-Tenant': 'time-tracker-free', 'Authorization': `Bearer ${token}` }
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT, 'Authorization': `Bearer ${token}` }
   })
     .then(response => response.json())
     .then(() => {
@@ -200,7 +200,7 @@ export function signOutFree(token) {
 export function updatePasswordFree(email, password, passwordConfirm) {
   return fetch(getApiUrl() + '/auth/change-password', {
     method: 'put',
-    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
     body: JSON.stringify({
       'username': email,
       'password': password,
@@ -217,7 +217,7 @@ export function updatePasswordFree(email, password, passwordConfirm) {
 export function updateAttributesFree(token, firstName, lastName, email, phone) {
   return fetch(getApiUrl() + '/auth/update-attributes', {
     method: 'put',
-    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
     body: JSON.stringify({
       'token': token,
       'attributes': [
@@ -245,4 +245,13 @@ export function updateAttributesFree(token, firstName, lastName, email, phone) {
       localStorage.removeItem('USER_INFORMATION');
       logout();
     });
+}
+
+export function getUsers() {
+  return fetch(getApiUrl() + '/auth/get-users', {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.json())
+    .then(response => console.log(response));
 }
