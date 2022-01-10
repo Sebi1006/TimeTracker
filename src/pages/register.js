@@ -199,7 +199,7 @@ const Register = () => {
                     </Grid>
                     <Grid item>
                       <Typography>
-                        Individual projects & predefined tags
+                        Individual projects & tags
                       </Typography>
                     </Grid>
                   </Grid>

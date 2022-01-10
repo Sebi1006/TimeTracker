@@ -16,8 +16,8 @@ import {
   TextField,
   Alert
 } from '@mui/material';
-import { signInFree } from '../utils/config';
-import { useState } from 'react';
+import { getOrganizationName, signInFree } from '../utils/config';
+import { useEffect, useState } from 'react';
 
 const Login = () => {
   const [snackbar, setSnackbar] = useState({
@@ -39,6 +39,20 @@ const Login = () => {
   const handleClose = () => {
     setSnackbar({ ...snackbar, open: false });
   };
+
+  const [organizationName, setOrganizationName] = useState('');
+
+  useEffect(() => {
+    if (localStorage.getItem('ORGANIZATION_NAME') !== null) {
+      setOrganizationName(localStorage.getItem('ORGANIZATION_NAME'));
+    } else {
+      getOrganizationName()
+        .then(response => {
+          setOrganizationName(response);
+          localStorage.setItem('ORGANIZATION_NAME', response);
+        });
+    }
+  });
 
   const router = useRouter();
 
@@ -81,6 +95,35 @@ const Login = () => {
           Login | Time Tracker
         </title>
       </Head>
+      <Box
+        component="main"
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          flexGrow: 1,
+          minHeight: '100%',
+          marginBottom: 1
+        }}
+      >
+        <Container>
+          <Typography
+            color="textPrimary"
+            variant="h2"
+            align="center"
+            gutterBottom
+          >
+            Time Tracker
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="h5"
+            align="center"
+            gutterBottom
+          >
+            {organizationName}
+          </Typography>
+        </Container>
+      </Box>
       <Box
         component="main"
         sx={{

@@ -255,3 +255,11 @@ export function getUsers() {
     .then(response => response.json())
     .then(response => console.log(response));
 }
+
+export function getOrganizationName() {
+  return fetch(getApiUrl() + '/auth/get-organization', {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.text());
+}

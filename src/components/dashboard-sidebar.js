@@ -11,6 +11,7 @@ import { Users as UsersIcon } from '../icons/users';
 import { Clock as ClockIcon } from '../icons/clock';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
+import { getOrganizationName } from '../utils/config';
 
 const items = [
   {
@@ -71,6 +72,43 @@ export const DashboardSidebar = (props) => {
         setValues({
           organization: 'Sample Inc.',
           subModel: 'Free'
+        });
+      } else if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'premium') {
+        if (localStorage.getItem('ORGANIZATION_NAME') !== null) {
+          setValues({
+            organization: localStorage.getItem('ORGANIZATION_NAME'),
+            subModel: 'Premium'
+          });
+        } else {
+          getOrganizationName()
+            .then(response => {
+              setValues({
+                organization: response,
+                subModel: 'Premium'
+              });
+              localStorage.setItem('ORGANIZATION_NAME', response);
+            });
+        }
+      } else if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'enterprise') {
+        if (localStorage.getItem('ORGANIZATION_NAME') !== null) {
+          setValues({
+            organization: localStorage.getItem('ORGANIZATION_NAME'),
+            subModel: 'Enterprise'
+          });
+        } else {
+          getOrganizationName()
+            .then(response => {
+              setValues({
+                organization: response,
+                subModel: 'Enterprise'
+              });
+              localStorage.setItem('ORGANIZATION_NAME', response);
+            });
+        }
+      } else {
+        setValues({
+          organization: '???',
+          subModel: 'Unknown'
         });
       }
     },
