@@ -255,7 +255,13 @@ export function getUsers() {
     .then(response => response.json());
 }
 
-export function addUserRequest(firstName, lastName, email, phone, password, subModel, entranceDate) {
+export function addUserRequest(firstName,
+  lastName,
+  email,
+  phone,
+  password,
+  subModel,
+  entranceDate) {
   return fetch(getApiUrl() + '/auth/sign-up', {
     method: 'post',
     headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
@@ -353,4 +359,43 @@ export function addWorkRequest(date, workPackages) {
     })
   })
     .then(response => response.json());
+}
+
+export function getAvatar(id) {
+  return fetch(getApiUrl() + '/file/' + id, {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.blob());
+}
+
+export function uploadAvatar(id, file) {
+  return fetch(getApiUrl() + '/file/upload/' + id, {
+    method: 'post',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: file
+  })
+    .then(response => response.text());
+}
+
+export function updateAvatarUrl(token, url) {
+  return fetch(getApiUrl() + '/auth/update-attributes', {
+    method: 'put',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'token': token,
+      'attributes': [
+        {
+          'name': 'custom:avatar_url',
+          'value': url
+        }
+      ]
+    })
+  })
+    .then(response => response.json())
+    .then(() => {
+      let jsonObj = JSON.parse(localStorage.getItem('USER_INFORMATION'));
+      jsonObj['avatarUrl'] = url;
+      localStorage.setItem('USER_INFORMATION', JSON.stringify(jsonObj));
+    });
 }

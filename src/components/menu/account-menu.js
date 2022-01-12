@@ -10,7 +10,7 @@ import PermIdentity from '@mui/icons-material/PermIdentity';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import NextLink from 'next/link';
-import { signOutFree } from '../../utils/config';
+import { getAvatar, signOutFree } from '../../utils/config';
 import { useEffect, useState } from 'react';
 
 export const AccountMenu = () => {
@@ -22,7 +22,13 @@ export const AccountMenu = () => {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('USER_INFORMATION')) !== null) {
       if (typeof JSON.parse(localStorage.getItem('USER_INFORMATION')).avatarUrl !== 'undefined') {
-        setAvatar(JSON.parse(localStorage.getItem('USER_INFORMATION')).avatarUrl);
+        getAvatar(JSON.parse(localStorage.getItem('USER_INFORMATION')).avatarUrl)
+          .then(imageBlob => {
+            if (imageBlob.type === 'application/octet-stream') {
+              const imageObjectURL = URL.createObjectURL(imageBlob);
+              setAvatar(imageObjectURL);
+            }
+          });
       }
     }
   }, []);
