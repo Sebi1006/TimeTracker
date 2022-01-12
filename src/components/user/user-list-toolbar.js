@@ -31,7 +31,8 @@ export const UserListToolbar = (props) => {
       + (currentDate.getMonth() + 1)
       + '/'
       + currentDate.getFullYear(),
-    avatarUrl: ''
+    avatarUrl: '',
+    tempPassword: ''
   });
 
   const handleDate = (date) => {
@@ -72,7 +73,8 @@ export const UserListToolbar = (props) => {
         + (currentDate.getMonth() + 1)
         + '/'
         + currentDate.getFullYear(),
-      avatarUrl: ''
+      avatarUrl: '',
+      tempPassword: ''
     });
   };
 
@@ -145,6 +147,15 @@ export const UserListToolbar = (props) => {
             onChange={handleChange}
             margin={'dense'}
           />
+          {props.subModel !== 'free' &&
+          <TextField
+            fullWidth
+            label="Temporary Password"
+            name="tempPassword"
+            value={values.tempPassword}
+            onChange={handleChange}
+            margin={'dense'}
+          />}
           <Box sx={{ marginTop: 1 }}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
@@ -163,16 +174,34 @@ export const UserListToolbar = (props) => {
           <Button onClick={closeDialog}>
             Cancel
           </Button>
-          <Button
-            onClick={function () {
-              props.addUser(values);
-              closeDialog();
-            }}
-            autoFocus
-            disabled={values.firstName === '' || values.lastName === '' || values.email === ''}
-          >
-            Submit
-          </Button>
+          {
+            props.subModel !== 'free' ?
+              <Button
+                onClick={function () {
+                  props.addUser(values);
+                  closeDialog();
+                }}
+                autoFocus
+                disabled={values.firstName === ''
+                || values.lastName === ''
+                || values.email === ''
+                || values.tempPassword === ''}
+              >
+                Submit
+              </Button> :
+              <Button
+                onClick={function () {
+                  props.addUser(values);
+                  closeDialog();
+                }}
+                autoFocus
+                disabled={values.firstName === ''
+                || values.lastName === ''
+                || values.email === ''}
+              >
+                Submit
+              </Button>
+          }
         </DialogActions>
       </Dialog>
     </Box>

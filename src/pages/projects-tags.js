@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { TagListToolbar } from '../components/tag/tag-list-toolbar';
 import { TagChip } from '../components/tag/tag-chip';
 import { useRouter } from 'next/router';
-import { useAuth } from '../utils/config';
+import { addProjectRequest, addTagRequest, getProjects, getTags, useAuth } from '../utils/config';
 
 const Projects = () => {
   const MAX_PROJECTS_PER_PAGE = 9;
@@ -28,7 +28,7 @@ const Projects = () => {
     setProject(project => [...project, data]);
 
     if (subModel !== 'free') {
-      // do post request...
+      addProjectRequest(data.title, data.description, data.createdAt, data.members);
     }
   };
 
@@ -36,7 +36,7 @@ const Projects = () => {
     setTag(tag => [...tag, data]);
 
     if (subModel !== 'free') {
-      // do post request...
+      addTagRequest(data.name);
     }
   };
 
@@ -52,6 +52,10 @@ const Projects = () => {
       setProject(projects);
       setTag(tags);
       setSubModel('free');
+    } else {
+      getProjects().then(response => setProject(response));
+      getTags().then(response => setTag(response));
+      setSubModel('premium-enterprise');
     }
   }, [router]);
 
