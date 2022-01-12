@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { Box, Container, Grid, Pagination } from '@mui/material';
 import { projects } from '../__mocks__/projects';
 import { tags } from '../__mocks__/tags';
+import { users } from '../__mocks__/users';
 import { ProjectListToolbar } from '../components/project/project-list-toolbar';
 import { ProjectCard } from '../components/project/project-card';
 import { DashboardLayout } from '../components/dashboard-layout';
@@ -9,13 +10,21 @@ import { useEffect, useState } from 'react';
 import { TagListToolbar } from '../components/tag/tag-list-toolbar';
 import { TagChip } from '../components/tag/tag-chip';
 import { useRouter } from 'next/router';
-import { addProjectRequest, addTagRequest, getProjects, getTags, useAuth } from '../utils/config';
+import {
+  addProjectRequest,
+  addTagRequest,
+  getProjects,
+  getTags,
+  getUsers,
+  useAuth
+} from '../utils/config';
 
 const Projects = () => {
   const MAX_PROJECTS_PER_PAGE = 9;
   const [page, setPage] = useState(1);
   const [project, setProject] = useState([]);
   const [tag, setTag] = useState([]);
+  const [user, setUser] = useState([]);
   const [subModel, setSubModel] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
@@ -28,7 +37,11 @@ const Projects = () => {
     setProject(project => [...project, data]);
 
     if (subModel !== 'free') {
-      addProjectRequest(data.title, data.description, data.createdAt, data.members);
+      if (data.members.length > 0) {
+        addProjectRequest(data.title, data.description, data.createdAt, data.members);
+      } else {
+        addProjectRequest(data.title, data.description, data.createdAt, null);
+      }
     }
   };
 
@@ -51,10 +64,56 @@ const Projects = () => {
     if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
       setProject(projects);
       setTag(tags);
+      setUser(users);
       setSubModel('free');
     } else {
       getProjects().then(response => setProject(response));
       getTags().then(response => setTag(response));
+      getUsers().then(response => {
+        if (response.length !== 0) {
+          let userList = [];
+
+          for (let i = 0; i < response.length; i++) {
+            let userId = '';
+            let firstName = '';
+            let lastName = '';
+            let email = '';
+            let phone = '';
+            let entranceDate = '';
+            let avatarUrl = '';
+
+            for (let j = 0; j < response[i].attributes.length; j++) {
+              if (response[i].attributes[j].name === 'sub') {
+                userId = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:first_name') {
+                firstName = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:last_name') {
+                lastName = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'email') {
+                email = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:phone') {
+                phone = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:entrance_date') {
+                entranceDate = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:avatar_url') {
+                avatarUrl = response[i].attributes[j].value;
+              }
+            }
+
+            userList.push({
+              userId: userId,
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              phone: phone,
+              entranceDate: entranceDate,
+              avatarUrl: avatarUrl
+            });
+          }
+
+          setUser(userList);
+        }
+      });
       setSubModel('premium-enterprise');
     }
   }, [router]);
@@ -75,7 +134,7 @@ const Projects = () => {
           }}
         >
           <Container maxWidth={false}>
-            <ProjectListToolbar addProject={addProject}/>
+            <ProjectListToolbar addProject={addProject} users={user}/>
             <Box sx={{ pt: 3 }}>
               <Grid
                 container

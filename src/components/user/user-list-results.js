@@ -62,7 +62,7 @@ export const UserListResults = ({ users, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={user.avatarUrl}
+                        src={''}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(user.firstName + ' ' + user.lastName)}

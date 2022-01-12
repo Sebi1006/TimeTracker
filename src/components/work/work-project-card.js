@@ -8,7 +8,8 @@ import {
 } from '@mui/material';
 import { projects } from '../../__mocks__/projects';
 import { tags } from '../../__mocks__/tags';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getProjects, getTags } from '../../utils/config';
 
 export const WorkProjectCard = (props) => {
   const [values, setValues] = useState({
@@ -18,6 +19,9 @@ export const WorkProjectCard = (props) => {
     description: '',
     disabled: false
   });
+
+  const [project, setProject] = useState([]);
+  const [tag, setTag] = useState([]);
 
   const handleChange = (event) => {
     setValues({
@@ -40,6 +44,16 @@ export const WorkProjectCard = (props) => {
     });
   };
 
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
+      setProject(projects);
+      setTag(tags);
+    } else {
+      getProjects().then(response => setProject(response));
+      getTags().then(response => setTag(response));
+    }
+  }, []);
+
   return (
     <Box sx={{ marginTop: 2, marginBottom: 2 }}>
       <Card style={{ backgroundColor: '#F8F8F8' }}>
@@ -54,7 +68,7 @@ export const WorkProjectCard = (props) => {
             margin={'dense'}
             disabled={values.disabled}
           >
-            {projects.map((current) => (
+            {project.map((current) => (
               <MenuItem key={current.id} value={current.title}>
                 {current.title}
               </MenuItem>
@@ -80,7 +94,7 @@ export const WorkProjectCard = (props) => {
             margin={'dense'}
             disabled={values.disabled}
           >
-            {tags.map((current) => (
+            {tag.map((current) => (
               <MenuItem key={current.id} value={current.name}>
                 {current.name}
               </MenuItem>

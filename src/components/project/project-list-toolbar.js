@@ -10,9 +10,8 @@ import {
   MenuItem,
   Checkbox
 } from '@mui/material';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { users } from '../../__mocks__/users';
 
 export const ProjectListToolbar = (props) => {
   const [dialog, setDialog] = useState(false);
@@ -32,15 +31,6 @@ export const ProjectListToolbar = (props) => {
       + currentDate.getFullYear(),
     members: []
   });
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const addMember = (member) => useCallback(() => {
-    if (user.includes(member)) {
-      setUser(user.filter(item => item !== member));
-    } else {
-      setUser(user => [...user, member]);
-    }
-  }, [user, member]);
 
   const handleChange = (event) => {
     setValues({
@@ -147,11 +137,17 @@ export const ProjectListToolbar = (props) => {
                 + user.find((element) => {return element.userId === x.userId;}).lastName).join(', ')
             }}
           >
-            {users.map((current) => (
+            {props.users.map((current) => (
               <MenuItem key={current.userId} value={current.userId}>
                 <Checkbox
                   checked={user.includes(current)}
-                  onChange={addMember(current)}
+                  onChange={() => {
+                    if (user.includes(current)) {
+                      setUser(user.filter(item => item !== current));
+                    } else {
+                      setUser(user => [...user, current]);
+                    }
+                  }}
                 />
                 {current.firstName + ' ' + current.lastName}
               </MenuItem>

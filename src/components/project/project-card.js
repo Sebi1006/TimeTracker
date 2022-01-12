@@ -62,14 +62,25 @@ export const ProjectCard = ({ project, ...rest }) => (
           }}
         >
           <UserIcon color="action"/>
-          <Typography
-            color="textSecondary"
-            display="inline"
-            sx={{ pl: 1 }}
-            variant="body2"
-          >
-            {project.members.length} members
-          </Typography>
+          {
+            project.members !== null ?
+              <Typography
+                color="textSecondary"
+                display="inline"
+                sx={{ pl: 1 }}
+                variant="body2"
+              >
+                {project.members.length} members
+              </Typography> :
+              <Typography
+                color="textSecondary"
+                display="inline"
+                sx={{ pl: 1 }}
+                variant="body2"
+              >
+                0 members
+              </Typography>
+          }
         </Grid>
       </Grid>
     </Box>
