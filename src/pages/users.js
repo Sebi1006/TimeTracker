@@ -28,7 +28,10 @@ const Users = () => {
     }
   };
 
+  const [admin, setAdmin] = useState(false);
+
   useEffect(() => {
+    setAdmin(JSON.parse(localStorage.getItem('USER_INFORMATION')).roles.includes('ROLE_ADMIN'));
     const loggedIn = useAuth();
     setIsLoggedIn(loggedIn);
 
@@ -96,7 +99,7 @@ const Users = () => {
     }
   }, [router]);
 
-  if (isLoggedIn) {
+  if (isLoggedIn && admin) {
     return (
       <>
         <Head>

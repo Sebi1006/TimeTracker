@@ -13,7 +13,7 @@ import { Logo } from './logo';
 import { NavItem } from './nav-item';
 import { getOrganizationName } from '../utils/config';
 
-const items = [
+const adminItems = [
   {
     href: '/',
     icon: (<ChartBarIcon fontSize="small"/>),
@@ -46,6 +46,34 @@ const items = [
   }
 ];
 
+const userItems = [
+  {
+    href: '/',
+    icon: (<ChartBarIcon fontSize="small"/>),
+    title: 'Dashboard'
+  },
+  {
+    href: '/timetracking',
+    icon: (<ClockIcon fontSize="small"/>),
+    title: 'Track Time'
+  },
+  {
+    href: '/projects-tags',
+    icon: (<ShoppingBagIcon fontSize="small"/>),
+    title: 'Projects & Tags'
+  },
+  {
+    href: '/account',
+    icon: (<UserIcon fontSize="small"/>),
+    title: 'Account'
+  },
+  {
+    href: '/settings',
+    icon: (<CogIcon fontSize="small"/>),
+    title: 'Settings'
+  }
+];
+
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const router = useRouter();
@@ -59,7 +87,11 @@ export const DashboardSidebar = (props) => {
     subModel: ''
   });
 
+  const [admin, setAdmin] = useState(false);
+
   useEffect(() => {
+      setAdmin(JSON.parse(localStorage.getItem('USER_INFORMATION')).roles.includes('ROLE_ADMIN'));
+
       if (!router.isReady) {
         return;
       }
@@ -176,16 +208,29 @@ export const DashboardSidebar = (props) => {
             my: 3
           }}
         />
-        <Box sx={{ flexGrow: 1 }}>
-          {items.map((item) => (
-            <NavItem
-              key={item.title}
-              icon={item.icon}
-              href={item.href}
-              title={item.title}
-            />
-          ))}
-        </Box>
+        {
+          admin ?
+            <Box sx={{ flexGrow: 1 }}>
+              {adminItems.map((item) => (
+                <NavItem
+                  key={item.title}
+                  icon={item.icon}
+                  href={item.href}
+                  title={item.title}
+                />
+              ))}
+            </Box> :
+            <Box sx={{ flexGrow: 1 }}>
+              {userItems.map((item) => (
+                <NavItem
+                  key={item.title}
+                  icon={item.icon}
+                  href={item.href}
+                  title={item.title}
+                />
+              ))}
+            </Box>
+        }
         <Divider sx={{ borderColor: '#2D3748' }}/>
         <Box
           sx={{

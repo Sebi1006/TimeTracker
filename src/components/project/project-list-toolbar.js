@@ -10,7 +10,7 @@ import {
   MenuItem,
   Checkbox
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 export const ProjectListToolbar = (props) => {
@@ -67,6 +67,12 @@ export const ProjectListToolbar = (props) => {
     setUser([]);
   };
 
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    setAdmin(JSON.parse(localStorage.getItem('USER_INFORMATION')).roles.includes('ROLE_ADMIN'));
+  }, []);
+
   return (
     <Box {...props}>
       <Box
@@ -84,15 +90,18 @@ export const ProjectListToolbar = (props) => {
         >
           Projects
         </Typography>
-        <Box sx={{ m: 1 }}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={openDialog}
-          >
-            Add Project
-          </Button>
-        </Box>
+        {
+          admin &&
+          <Box sx={{ m: 1 }}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={openDialog}
+            >
+              Add Project
+            </Button>
+          </Box>
+        }
       </Box>
       <Box sx={{ mt: 3 }}>
       </Box>
