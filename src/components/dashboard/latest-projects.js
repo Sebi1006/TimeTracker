@@ -19,31 +19,31 @@ const projects = [
   {
     id: uuid(),
     name: 'Dropbox',
-    imageUrl: '/static/images/projects/project_1.png',
+    imageUrl: '/static_files/images/projects/project_1.png',
     updatedAt: subHours(Date.now(), 2)
   },
   {
     id: uuid(),
     name: 'Medium Corporation',
-    imageUrl: '/static/images/projects/project_2.png',
+    imageUrl: '/static_files/images/projects/project_2.png',
     updatedAt: subHours(Date.now(), 2)
   },
   {
     id: uuid(),
     name: 'Slack',
-    imageUrl: '/static/images/projects/project_3.png',
+    imageUrl: '/static_files/images/projects/project_3.png',
     updatedAt: subHours(Date.now(), 3)
   },
   {
     id: uuid(),
     name: 'Lyft',
-    imageUrl: '/static/images/projects/project_4.png',
+    imageUrl: '/static_files/images/projects/project_4.png',
     updatedAt: subHours(Date.now(), 5)
   },
   {
     id: uuid(),
     name: 'GitHub',
-    imageUrl: '/static/images/projects/project_5.png',
+    imageUrl: '/static_files/images/projects/project_5.png',
     updatedAt: subHours(Date.now(), 9)
   }
 ];

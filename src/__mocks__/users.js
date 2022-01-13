@@ -8,7 +8,7 @@ export const users = [
     email: 'ekaterina.tankova@devias.io',
     phone: '+380123456789',
     entranceDate: '11/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_3.png'
+    avatarUrl: '/static_files/images/avatars/avatar_3.png'
   },
   {
     userId: uuid(),
@@ -17,7 +17,7 @@ export const users = [
     email: 'cao.yu@devias.io',
     phone: '+86123456789',
     entranceDate: '12/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_4.png'
+    avatarUrl: '/static_files/images/avatars/avatar_4.png'
   },
   {
     userId: uuid(),
@@ -26,7 +26,7 @@ export const users = [
     email: 'alexa.richardson@devias.io',
     phone: '+44123456789',
     entranceDate: '13/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_2.png'
+    avatarUrl: '/static_files/images/avatars/avatar_2.png'
   },
   {
     userId: uuid(),
@@ -35,7 +35,7 @@ export const users = [
     email: 'anje.keizer@devias.io',
     phone: '+49123456789',
     entranceDate: '14/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_5.png'
+    avatarUrl: '/static_files/images/avatars/avatar_5.png'
   },
   {
     userId: uuid(),
@@ -44,7 +44,7 @@ export const users = [
     email: 'clarke.gillebert@devias.io',
     phone: '+1123456789',
     entranceDate: '15/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_6.png'
+    avatarUrl: '/static_files/images/avatars/avatar_6.png'
   },
   {
     userId: uuid(),
@@ -53,7 +53,7 @@ export const users = [
     email: 'adam.denisov@devias.io',
     phone: '+7123456789',
     entranceDate: '16/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_1.png'
+    avatarUrl: '/static_files/images/avatars/avatar_1.png'
   },
   {
     userId: uuid(),
@@ -62,7 +62,7 @@ export const users = [
     email: 'ava.gregoraci@devias.io',
     phone: '+39123456789',
     entranceDate: '17/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_7.png'
+    avatarUrl: '/static_files/images/avatars/avatar_7.png'
   },
   {
     userId: uuid(),
@@ -71,7 +71,7 @@ export const users = [
     email: 'emilee.simchenko@devias.io',
     phone: '+375123456789',
     entranceDate: '18/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_8.png'
+    avatarUrl: '/static_files/images/avatars/avatar_8.png'
   },
   {
     userId: uuid(),
@@ -80,7 +80,7 @@ export const users = [
     email: 'kwak.seong.min@devias.io',
     phone: '+82123456789',
     entranceDate: '19/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_9.png'
+    avatarUrl: '/static_files/images/avatars/avatar_9.png'
   },
   {
     userId: uuid(),
@@ -89,6 +89,6 @@ export const users = [
     email: 'merrile.burgett@devias.io',
     phone: '+33123456789',
     entranceDate: '20/4/2019',
-    avatarUrl: '/static/images/avatars/avatar_10.png'
+    avatarUrl: '/static_files/images/avatars/avatar_10.png'
   }
 ];
