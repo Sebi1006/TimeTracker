@@ -6,7 +6,7 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import { users } from '../__mocks__/users';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '../utils/config';
+import { addUserRequest, getUsers, useAuth } from '../utils/config';
 
 const Users = () => {
   const [user, setUser] = useState([]);
@@ -18,11 +18,20 @@ const Users = () => {
     setUser(user => [...user, data]);
 
     if (subModel !== 'free') {
-      // do post request...
+      addUserRequest(data.firstName,
+        data.lastName,
+        data.email,
+        data.phone,
+        data.tempPassword,
+        subModel,
+        data.entranceDate);
     }
   };
 
+  const [admin, setAdmin] = useState(false);
+
   useEffect(() => {
+    setAdmin(JSON.parse(localStorage.getItem('USER_INFORMATION')).roles.includes('ROLE_ADMIN'));
     const loggedIn = useAuth();
     setIsLoggedIn(loggedIn);
 
@@ -33,10 +42,64 @@ const Users = () => {
     if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
       setUser(users);
       setSubModel('free');
+    } else {
+      getUsers().then(response => {
+        if (response.length !== 0) {
+          let userList = [];
+
+          for (let i = 0; i < response.length; i++) {
+            let userId = '';
+            let firstName = '';
+            let lastName = '';
+            let email = '';
+            let phone = '';
+            let entranceDate = '';
+            let avatarUrl = '';
+
+            for (let j = 0; j < response[i].attributes.length; j++) {
+              if (response[i].attributes[j].name === 'sub') {
+                userId = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:first_name') {
+                firstName = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:last_name') {
+                lastName = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'email') {
+                email = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:phone') {
+                phone = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:entrance_date') {
+                entranceDate = response[i].attributes[j].value;
+              } else if (response[i].attributes[j].name === 'custom:avatar_url') {
+                avatarUrl = response[i].attributes[j].value;
+              }
+            }
+
+            userList.push({
+              userId: userId,
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              phone: phone,
+              entranceDate: entranceDate,
+              avatarUrl: avatarUrl
+            });
+          }
+
+          setUser(userList);
+        }
+      });
+
+      if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'premium') {
+        setSubModel('premium');
+      }
+
+      if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'enterprise') {
+        setSubModel('enterprise');
+      }
     }
   }, [router]);
 
-  if (isLoggedIn) {
+  if (isLoggedIn && admin) {
     return (
       <>
         <Head>
@@ -52,7 +115,7 @@ const Users = () => {
           }}
         >
           <Container maxWidth={false}>
-            <UserListToolbar addUser={addUser}/>
+            <UserListToolbar addUser={addUser} subModel={subModel}/>
             <Box sx={{ mt: 3 }}>
               <UserListResults users={user}/>
             </Box>

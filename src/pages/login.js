@@ -52,7 +52,7 @@ const Login = () => {
           localStorage.setItem('ORGANIZATION_NAME', response);
         });
     }
-  });
+  }, []);
 
   const router = useRouter();
 

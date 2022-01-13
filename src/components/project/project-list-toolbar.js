@@ -10,9 +10,8 @@ import {
   MenuItem,
   Checkbox
 } from '@mui/material';
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { users } from '../../__mocks__/users';
 
 export const ProjectListToolbar = (props) => {
   const [dialog, setDialog] = useState(false);
@@ -32,15 +31,6 @@ export const ProjectListToolbar = (props) => {
       + currentDate.getFullYear(),
     members: []
   });
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const addMember = (member) => useCallback(() => {
-    if (user.includes(member)) {
-      setUser(user.filter(item => item !== member));
-    } else {
-      setUser(user => [...user, member]);
-    }
-  }, [user, member]);
 
   const handleChange = (event) => {
     setValues({
@@ -77,6 +67,12 @@ export const ProjectListToolbar = (props) => {
     setUser([]);
   };
 
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    setAdmin(JSON.parse(localStorage.getItem('USER_INFORMATION')).roles.includes('ROLE_ADMIN'));
+  }, []);
+
   return (
     <Box {...props}>
       <Box
@@ -94,15 +90,18 @@ export const ProjectListToolbar = (props) => {
         >
           Projects
         </Typography>
-        <Box sx={{ m: 1 }}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={openDialog}
-          >
-            Add Project
-          </Button>
-        </Box>
+        {
+          admin &&
+          <Box sx={{ m: 1 }}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={openDialog}
+            >
+              Add Project
+            </Button>
+          </Box>
+        }
       </Box>
       <Box sx={{ mt: 3 }}>
       </Box>
@@ -147,11 +146,17 @@ export const ProjectListToolbar = (props) => {
                 + user.find((element) => {return element.userId === x.userId;}).lastName).join(', ')
             }}
           >
-            {users.map((current) => (
+            {props.users.map((current) => (
               <MenuItem key={current.userId} value={current.userId}>
                 <Checkbox
                   checked={user.includes(current)}
-                  onChange={addMember(current)}
+                  onChange={() => {
+                    if (user.includes(current)) {
+                      setUser(user.filter(item => item !== current));
+                    } else {
+                      setUser(user => [...user, current]);
+                    }
+                  }}
                 />
                 {current.firstName + ' ' + current.lastName}
               </MenuItem>

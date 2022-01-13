@@ -252,8 +252,32 @@ export function getUsers() {
     method: 'get',
     headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
   })
-    .then(response => response.json())
-    .then(response => console.log(response));
+    .then(response => response.json());
+}
+
+export function addUserRequest(firstName,
+  lastName,
+  email,
+  phone,
+  password,
+  subModel,
+  entranceDate) {
+  return fetch(getApiUrl() + '/auth/sign-up', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'email': email,
+      'password': password,
+      'firstName': firstName,
+      'lastName': lastName,
+      'subModel': subModel,
+      'phone': phone,
+      'entranceDate': entranceDate,
+      'avatarUrl': '',
+      'roles': ['ROLE_USER']
+    })
+  })
+    .then(response => response.json());
 }
 
 export function getOrganizationName() {
@@ -262,4 +286,116 @@ export function getOrganizationName() {
     headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
   })
     .then(response => response.text());
+}
+
+export function getTags() {
+  return fetch(getApiUrl() + '/tag', {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.json());
+}
+
+export function addTagRequest(tagName) {
+  return fetch(getApiUrl() + '/tag', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'name': tagName
+    })
+  })
+    .then(response => response.json());
+}
+
+export function getProjects() {
+  return fetch(getApiUrl() + '/project', {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.json());
+}
+
+export function addProjectRequest(title, description, createdAt, members) {
+  return fetch(getApiUrl() + '/project', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'title': title,
+      'description': description,
+      'createdAt': createdAt,
+      'members': members
+    })
+  })
+    .then(response => response.json());
+}
+
+export function getUserWorks(id) {
+  return fetch(getApiUrl() + '/user-work/' + id, {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.json());
+}
+
+export function addUpdateUserWorkRequest(id, works) {
+  return fetch(getApiUrl() + '/user-work', {
+    method: 'put',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'id': id,
+      'works': works
+    })
+  })
+    .then(response => response.json());
+}
+
+export function addWorkRequest(date, workPackages) {
+  return fetch(getApiUrl() + '/work', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'date': date,
+      'workPackages': workPackages
+    })
+  })
+    .then(response => response.json());
+}
+
+export function getAvatar(id) {
+  return fetch(getApiUrl() + '/file/' + id, {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.blob());
+}
+
+export function uploadAvatar(id, file) {
+  return fetch(getApiUrl() + '/file/upload/' + id, {
+    method: 'post',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: file
+  })
+    .then(response => response.text());
+}
+
+export function updateAvatarUrl(token, url) {
+  return fetch(getApiUrl() + '/auth/update-attributes', {
+    method: 'put',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'token': token,
+      'attributes': [
+        {
+          'name': 'custom:avatar_url',
+          'value': url
+        }
+      ]
+    })
+  })
+    .then(response => response.json())
+    .then(() => {
+      let jsonObj = JSON.parse(localStorage.getItem('USER_INFORMATION'));
+      jsonObj['avatarUrl'] = url;
+      localStorage.setItem('USER_INFORMATION', JSON.stringify(jsonObj));
+    });
 }

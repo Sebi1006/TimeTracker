@@ -8,7 +8,7 @@ import {
   DialogContent,
   DialogActions
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 export const TagListToolbar = (props) => {
@@ -40,6 +40,12 @@ export const TagListToolbar = (props) => {
     });
   };
 
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    setAdmin(JSON.parse(localStorage.getItem('USER_INFORMATION')).roles.includes('ROLE_ADMIN'));
+  }, []);
+
   return (
     <Box {...props}>
       <Box
@@ -57,15 +63,18 @@ export const TagListToolbar = (props) => {
         >
           Tags
         </Typography>
-        <Box sx={{ m: 1 }}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={openDialog}
-          >
-            Add Tag
-          </Button>
-        </Box>
+        {
+          admin &&
+          <Box sx={{ m: 1 }}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={openDialog}
+            >
+              Add Tag
+            </Button>
+          </Box>
+        }
       </Box>
       <Box sx={{ mt: 3 }}>
       </Box>

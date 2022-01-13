@@ -6,7 +6,7 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import { works } from '../__mocks__/works';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '../utils/config';
+import { addWorkRequest, getUserWorks, addUpdateUserWorkRequest, useAuth } from '../utils/config';
 
 const TimeTracking = () => {
   const [work, setWork] = useState([]);
@@ -15,10 +15,15 @@ const TimeTracking = () => {
   const router = useRouter();
 
   const addWork = (data) => {
-    setWork(work => [...work, data]);
-
-    if (subModel !== 'free') {
-      // do post request...
+    if (subModel === 'free') {
+      setWork(work => [...work, data].sort(dateSort));
+    } else {
+      addWorkRequest(data.date, data.workPackages)
+        .then(() => {
+          addUpdateUserWorkRequest(JSON.parse(localStorage.getItem('USER_INFORMATION')).userId,
+            [...work, data]);
+        })
+        .then(() => setWork(work => [...work, data].sort(dateSort)));
     }
   };
 
@@ -31,10 +36,30 @@ const TimeTracking = () => {
     }
 
     if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
-      setWork(works);
+      setWork(works.sort(dateSort));
       setSubModel('free');
+    } else {
+      getUserWorks(JSON.parse(localStorage.getItem('USER_INFORMATION')).userId)
+        .then(response => setWork(response.works.sort(dateSort)));
+      setSubModel('premium-enterprise');
     }
   }, [router]);
+
+  const convertToDateObject = (str) => {
+    let fields = str.split('/');
+    let day = fields[0];
+    let month = fields[1];
+    let year = fields[2];
+
+    return new Date(year, month - 1, day);
+  };
+
+  const dateSort = (a, b) => {
+    let x = convertToDateObject(a.date);
+    let y = convertToDateObject(b.date);
+
+    return y.getTime() - x.getTime();
+  };
 
   if (isLoggedIn) {
     return (
