@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { Box, Container, Typography } from '@mui/material';
 import { DashboardLayout } from '../components/dashboard-layout';
-import { SettingsAPIToken } from '../components/settings/settings-apitoken';
 import { SettingsPassword } from '../components/settings/settings-password';
 import { useRouter } from 'next/router';
 import { useAuth } from '../utils/config';
@@ -42,10 +41,7 @@ const Settings = () => {
             >
               Settings
             </Typography>
-            <SettingsAPIToken/>
-            <Box sx={{ pt: 3 }}>
-              <SettingsPassword/>
-            </Box>
+            <SettingsPassword/>
           </Container>
         </Box>
       </>

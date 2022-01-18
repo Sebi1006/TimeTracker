@@ -130,7 +130,7 @@ const getCurrentDate = () => {
 export function signUpFree(firstName, lastName, email, password) {
   return fetch(getApiUrl() + '/auth/sign-up', {
     method: 'post',
-    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': 'time-tracker-free' },
     body: JSON.stringify({
       'email': email,
       'password': password,
