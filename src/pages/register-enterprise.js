@@ -11,12 +11,56 @@ import {
   Container,
   Divider,
   Grid,
+  InputAdornment,
   Link,
   TextField,
   Typography
 } from '@mui/material';
+import { useState } from 'react';
 
 const RegisterEnterprise = () => {
+  const [price, setPrice] = useState('');
+
+  const handleChange = (event) => {
+    if (event.target.value < 100) {
+      setPrice('');
+    } else if (event.target.value >= 100 && event.target.value <= 500) {
+      setPrice('60€');
+    } else if (event.target.value > 500 && event.target.value <= 1000) {
+      setPrice('70€');
+    } else if (event.target.value > 1000 && event.target.value <= 5000) {
+      setPrice('85€');
+    } else if (event.target.value > 5000 && event.target.value <= 10000) {
+      setPrice('100€');
+    } else if (event.target.value > 10000 && event.target.value <= 20000) {
+      setPrice('120€');
+    } else if (event.target.value > 20000 && event.target.value <= 50000) {
+      setPrice('150€');
+    } else if (event.target.value > 50000 && event.target.value <= 100000) {
+      setPrice('200€');
+    } else if (event.target.value > 100000 && event.target.value <= 200000) {
+      setPrice('250€');
+    } else if (event.target.value > 200000 && event.target.value <= 300000) {
+      setPrice('300€');
+    } else if (event.target.value > 300000 && event.target.value <= 400000) {
+      setPrice('350€');
+    } else if (event.target.value > 400000 && event.target.value <= 500000) {
+      setPrice('400€');
+    } else if (event.target.value > 500000 && event.target.value <= 600000) {
+      setPrice('450€');
+    } else if (event.target.value > 600000 && event.target.value <= 700000) {
+      setPrice('500€');
+    } else if (event.target.value > 700000 && event.target.value <= 800000) {
+      setPrice('550€');
+    } else if (event.target.value > 800000 && event.target.value <= 900000) {
+      setPrice('600€');
+    } else if (event.target.value > 900000 && event.target.value <= 1000000) {
+      setPrice('700€');
+    } else {
+      setPrice('');
+    }
+  };
+
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -57,6 +101,10 @@ const RegisterEnterprise = () => {
         .required('Last name is required'),
       password: Yup
         .string()
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,:;_|~@$!%*?&#+-])[A-Za-z\d.,:;_|~@$!%*?&#+-]{8,}$/,
+          'Must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character'
+        )
         .max(255)
         .required('Password is required'),
       cardName: Yup
@@ -142,9 +190,15 @@ const RegisterEnterprise = () => {
                   margin="normal"
                   name="numberOfUsers"
                   onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
+                  onChange={(event) => {
+                    formik.handleChange(event);
+                    handleChange(event);
+                  }}
                   value={formik.values.numberOfUsers}
                   variant="outlined"
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">{price}</InputAdornment>
+                  }}
                 />
                 <TextField
                   error={Boolean(formik.touched.firstName && formik.errors.firstName)}

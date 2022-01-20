@@ -149,6 +149,43 @@ export function signUpFree(firstName, lastName, email, password) {
     .then(response => response.json());
 }
 
+export function signUpPremium(organizationName,
+  firstName,
+  lastName,
+  email,
+  password,
+  nameOnCard,
+  cardNumber,
+  expirationDate,
+  securityCode) {
+  return fetch(getApiUrl() + '/auth/register-premium', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'email': email,
+      'password': password,
+      'organizationName': organizationName,
+      'firstName': firstName,
+      'lastName': lastName,
+      'subModel': 'premium',
+      'entranceDate': getCurrentDate(),
+      'roles': [
+        'ROLE_ADMIN',
+        'ROLE_USER'
+      ],
+      'phone': '',
+      'avatarUrl': '',
+      'creditCardInformation': {
+        'nameOnCard': nameOnCard,
+        'cardNumber': cardNumber,
+        'expirationDate': expirationDate,
+        'securityCode': securityCode
+      }
+    })
+  })
+    .then(response => response.json());
+}
+
 export function signInFree(email, password) {
   return fetch(getApiUrl() + '/auth/sign-in', {
     method: 'post',
