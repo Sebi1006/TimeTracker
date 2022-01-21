@@ -17,5 +17,3 @@
 - Windows CMD: `set "NEXT_PUBLIC_TENANT=time-tracker-free" && npm run dev`
 
 - Powershell: `($env:NEXT_PUBLIC_TENANT = "time-tracker-free") -and (npm run dev)`
-
-- Build (PS): `($env:NEXT_PUBLIC_TENANT = "time-tracker-free") -and ($env:NEXT_PUBLIC_API_URL = "http://127.0.0.1:8080") -and (npm run build)`

@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: process.env.NEXT_PUBLIC_API_URL
+  apiUrl: '01eb18f0-default-timetrack-a1f7-984832249.eu-central-1.elb.amazonaws.com'
 };
 
 const localVars = {
@@ -165,6 +165,45 @@ export function signUpPremium(organizationName,
       'email': email,
       'password': password,
       'organizationName': organizationName,
+      'firstName': firstName,
+      'lastName': lastName,
+      'subModel': 'premium',
+      'entranceDate': getCurrentDate(),
+      'roles': [
+        'ROLE_ADMIN',
+        'ROLE_USER'
+      ],
+      'phone': '',
+      'avatarUrl': '',
+      'creditCardInformation': {
+        'nameOnCard': nameOnCard,
+        'cardNumber': cardNumber,
+        'expirationDate': expirationDate,
+        'securityCode': securityCode
+      }
+    })
+  })
+    .then(response => response.json());
+}
+
+export function signUpEnterprise(organizationName,
+  numberOfUsers,
+  firstName,
+  lastName,
+  email,
+  password,
+  nameOnCard,
+  cardNumber,
+  expirationDate,
+  securityCode) {
+  return fetch(getApiUrl() + '/auth/register-enterprise', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
+    body: JSON.stringify({
+      'email': email,
+      'password': password,
+      'organizationName': organizationName,
+      'numberOfUsers': numberOfUsers,
       'firstName': firstName,
       'lastName': lastName,
       'subModel': 'premium',
