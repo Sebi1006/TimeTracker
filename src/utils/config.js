@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: '01eb18f0-default-timetrack-a1f7-984832249.eu-central-1.elb.amazonaws.com'
+  apiUrl: 'http://01eb18f0-default-timetrack-a1f7-984832249.eu-central-1.elb.amazonaws.com'
 };
 
 const localVars = {
