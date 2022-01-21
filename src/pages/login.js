@@ -16,7 +16,7 @@ import {
   TextField,
   Alert
 } from '@mui/material';
-import { getOrganizationName, signInFree } from '../utils/config';
+import { getOrganizationName, signInRequest } from '../utils/config';
 import { useEffect, useState } from 'react';
 
 const Login = () => {
@@ -77,7 +77,7 @@ const Login = () => {
     }),
     onSubmit: () => {
       setSubmit(true);
-      signInFree(formik.values.email, formik.values.password)
+      signInRequest(formik.values.email, formik.values.password)
         .then(() => {
           router.push('/');
         })

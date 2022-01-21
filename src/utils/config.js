@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: 'http://01eb18f0-default-timetrack-a1f7-984832249.eu-central-1.elb.amazonaws.com'
+  apiUrl: 'http://3.71.8.74:31479'
 };
 
 const localVars = {
@@ -206,7 +206,7 @@ export function signUpEnterprise(organizationName,
       'numberOfUsers': numberOfUsers,
       'firstName': firstName,
       'lastName': lastName,
-      'subModel': 'premium',
+      'subModel': 'enterprise',
       'entranceDate': getCurrentDate(),
       'roles': [
         'ROLE_ADMIN',
@@ -225,7 +225,7 @@ export function signUpEnterprise(organizationName,
     .then(response => response.json());
 }
 
-export function signInFree(email, password) {
+export function signInRequest(email, password) {
   return fetch(getApiUrl() + '/auth/sign-in', {
     method: 'post',
     headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
