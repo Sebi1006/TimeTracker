@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: 'http://3.71.8.74:31479'
+  apiUrl: 'http://01eb18f0-default-timetrack-a1f7-984832249.eu-central-1.elb.amazonaws.com'
 };
 
 const localVars = {
@@ -475,3 +475,37 @@ export function updateAvatarUrl(token, url) {
       localStorage.setItem('USER_INFORMATION', JSON.stringify(jsonObj));
     });
 }
+
+export const convertToDateObject = (str) => {
+  let fields = str.split('/');
+  let day = fields[0];
+  let month = fields[1];
+  let year = fields[2];
+
+  return new Date(year, month - 1, day);
+};
+
+export const dateSort = (a, b) => {
+  let x = convertToDateObject(a.date);
+  let y = convertToDateObject(b.date);
+
+  return y.getTime() - x.getTime();
+};
+
+Date.prototype.getWeek = function () {
+  let date = new Date(this.getTime());
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  let week1 = new Date(date.getFullYear(), 0, 4);
+  return 1 + Math.round(((date.getTime() - week1.getTime())
+    / 86400000
+    - 3
+    + (week1.getDay() + 6)
+    % 7) / 7);
+};
+
+Date.prototype.getWeekYear = function () {
+  let date = new Date(this.getTime());
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  return date.getFullYear();
+};

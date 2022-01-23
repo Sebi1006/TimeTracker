@@ -127,6 +127,7 @@ export const WorkListToolbar = (props) => {
                 mask="__/__/____"
                 inputFormat="dd/MM/yyyy"
                 toolbarFormat="dd/MM/yyyy"
+                maxDate={new Date()}
               />
             </LocalizationProvider>
           </Box>

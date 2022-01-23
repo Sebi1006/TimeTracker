@@ -6,7 +6,13 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import { works } from '../__mocks__/works';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { addWorkRequest, getUserWorks, addUpdateUserWorkRequest, useAuth } from '../utils/config';
+import {
+  addWorkRequest,
+  getUserWorks,
+  addUpdateUserWorkRequest,
+  useAuth,
+  dateSort
+} from '../utils/config';
 
 const TimeTracking = () => {
   const [work, setWork] = useState([]);
@@ -44,22 +50,6 @@ const TimeTracking = () => {
       setSubModel('premium-enterprise');
     }
   }, [router]);
-
-  const convertToDateObject = (str) => {
-    let fields = str.split('/');
-    let day = fields[0];
-    let month = fields[1];
-    let year = fields[2];
-
-    return new Date(year, month - 1, day);
-  };
-
-  const dateSort = (a, b) => {
-    let x = convertToDateObject(a.date);
-    let y = convertToDateObject(b.date);
-
-    return y.getTime() - x.getTime();
-  };
 
   if (isLoggedIn) {
     return (
