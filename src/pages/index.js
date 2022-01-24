@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
-import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useRouter } from 'next/router';
 import { useAuth } from '../utils/config';
 import { useEffect, useState } from 'react';
 import { Weekly } from '../components/dashboard/weekly';
 import { Daily } from '../components/dashboard/daily';
+import { Project } from '../components/dashboard/project';
 
 const Dashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -66,7 +66,7 @@ const Dashboard = () => {
                 xl={3}
                 xs={12}
               >
-                <TrafficByDevice/>
+                <Project/>
               </Grid>
             </Grid>
           </Container>

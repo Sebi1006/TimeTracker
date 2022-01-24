@@ -2,7 +2,7 @@ import { Box, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/mate
 import { Line } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import { works } from '../../__mocks__/works';
-import { convertToDateObject, dateSort } from '../../utils/config';
+import { convertToDateObject, dateSort, getUserWorks } from '../../utils/config';
 
 export const Weekly = (props) => {
   const theme = useTheme();
@@ -23,17 +23,26 @@ export const Weekly = (props) => {
   });
 
   useEffect(() => {
-    let sortedWorks = works.sort(dateSort);
+    if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
+      setWorkData(works.sort(dateSort));
+    } else {
+      getUserWorks(JSON.parse(localStorage.getItem('USER_INFORMATION')).userId)
+        .then(response => setWorkData(response.works.sort(dateSort)));
+    }
+  }, []);
+
+  const setWorkData = (work) => {
+    let sortedWorks = work;
     let currentYear = convertToDateObject(sortedWorks[0].date).getFullYear();
     let currentWeek = convertToDateObject(sortedWorks[0].date).getWeek();
     let currentHours = sumOfWorkingHours(sortedWorks[0].workPackages);
 
-    for (let i = 1; i < works.length; i++) {
+    for (let i = 1; i < work.length; i++) {
       if (convertToDateObject(sortedWorks[i].date).getFullYear() === currentYear) {
         if (convertToDateObject(sortedWorks[i].date).getWeek() === currentWeek) {
           currentHours += sumOfWorkingHours(sortedWorks[i].workPackages);
 
-          if (i === works.length - 1) {
+          if (i === work.length - 1) {
             setHour(hour.push(currentHours));
             setWeek(week.push('CW ' + currentWeek));
           }
@@ -59,7 +68,7 @@ export const Weekly = (props) => {
         }
       ]
     });
-  }, []);
+  };
 
   const sumOfWorkingHours = (data) => {
     let sum = 0;

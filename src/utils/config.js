@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: 'http://01eb18f0-default-timetrack-a1f7-984832249.eu-central-1.elb.amazonaws.com'
+  apiUrl: 'http://3.70.232.159:31479'
 };
 
 const localVars = {
@@ -474,6 +474,14 @@ export function updateAvatarUrl(token, url) {
       jsonObj['avatarUrl'] = url;
       localStorage.setItem('USER_INFORMATION', JSON.stringify(jsonObj));
     });
+}
+
+export function getProjectHours() {
+  return fetch(getApiUrl() + '/project-hours', {
+    method: 'get',
+    headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT }
+  })
+    .then(response => response.json());
 }
 
 export const convertToDateObject = (str) => {

@@ -2,12 +2,11 @@ import { Box, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/mate
 import { Bar } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import { works } from '../../__mocks__/works';
-import { convertToDateObject, dateSort } from '../../utils/config';
+import { convertToDateObject, dateSort, getUserWorks } from '../../utils/config';
 
 export const Daily = (props) => {
   const theme = useTheme();
 
-  const [work, setWork] = useState([]);
   const [date, setDate] = useState([]);
   const [hour, setHour] = useState([]);
   const [data, setData] = useState({
@@ -24,16 +23,26 @@ export const Daily = (props) => {
   });
 
   useEffect(() => {
-    setWork(work.push(works.sort(dateSort)[0]));
-    let currentWeek = convertToDateObject(works.sort(dateSort)[0].date).getWeek();
+    if (JSON.parse(localStorage.getItem('USER_INFORMATION')).subModel === 'free') {
+      setWorkData(works.sort(dateSort));
+    } else {
+      getUserWorks(JSON.parse(localStorage.getItem('USER_INFORMATION')).userId)
+        .then(response => setWorkData(response.works.sort(dateSort)));
+    }
+  }, []);
+
+  const setWorkData = (work) => {
+    let workList = [];
+    workList.push(work[0]);
+    let currentWeek = convertToDateObject(work[0].date).getWeek();
 
     for (let i = 1; i < 5; i++) {
-      if (convertToDateObject(works.sort(dateSort)[i].date).getWeek() === currentWeek) {
-        setWork(work.push(works.sort(dateSort)[i]));
+      if (convertToDateObject(work[i].date).getWeek() === currentWeek) {
+        workList.push(work[i]);
       }
     }
 
-    let sortedWorks = work.sort(reverseDateSort);
+    let sortedWorks = workList.sort(reverseDateSort);
 
     for (let i = 0; i < sortedWorks.length; i++) {
       setDate(date.push(sortedWorks[i].date));
@@ -53,7 +62,7 @@ export const Daily = (props) => {
         }
       ]
     });
-  }, []);
+  };
 
   const reverseDateSort = (a, b) => {
     let x = convertToDateObject(a.date);

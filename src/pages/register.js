@@ -209,7 +209,7 @@ const Register = () => {
                     </Grid>
                     <Grid item>
                       <Typography>
-                        Profile pictures & individual company logo
+                        Profile pictures
                       </Typography>
                     </Grid>
                   </Grid>
@@ -219,7 +219,7 @@ const Register = () => {
                     </Grid>
                     <Grid item>
                       <Typography>
-                        Basic work time analysis
+                        Work time analysis
                       </Typography>
                     </Grid>
                   </Grid>
@@ -308,7 +308,7 @@ const Register = () => {
                     </Grid>
                     <Grid item>
                       <Typography>
-                        Profile pictures & individual company logo
+                        Profile pictures
                       </Typography>
                     </Grid>
                   </Grid>
@@ -318,7 +318,7 @@ const Register = () => {
                     </Grid>
                     <Grid item>
                       <Typography>
-                        Extended work time & project analysis
+                        Work time & project analysis
                       </Typography>
                     </Grid>
                   </Grid>
