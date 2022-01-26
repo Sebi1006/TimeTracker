@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 const serverVars = {
-  apiUrl: 'http://3.69.31.101:31479'
+  apiUrl: 'http://3.66.29.170:31479'
 };
 
 const localVars = {
@@ -261,7 +261,7 @@ export function signInRequest(email, password) {
     });
 }
 
-export function signOutFree(token) {
+export function signOutRequest(token) {
   return fetch(getApiUrl() + '/auth/logout', {
     method: 'delete',
     headers: { 'X-Tenant': process.env.NEXT_PUBLIC_TENANT, 'Authorization': `Bearer ${token}` }
@@ -273,7 +273,7 @@ export function signOutFree(token) {
     });
 }
 
-export function updatePasswordFree(email, password, passwordConfirm) {
+export function updatePasswordRequest(email, password, passwordConfirm) {
   return fetch(getApiUrl() + '/auth/change-password', {
     method: 'put',
     headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },
@@ -290,7 +290,7 @@ export function updatePasswordFree(email, password, passwordConfirm) {
     });
 }
 
-export function updateAttributesFree(token, firstName, lastName, email, phone) {
+export function updateAttributesRequest(token, firstName, lastName, email, phone) {
   return fetch(getApiUrl() + '/auth/update-attributes', {
     method: 'put',
     headers: { 'Content-Type': 'application/json', 'X-Tenant': process.env.NEXT_PUBLIC_TENANT },

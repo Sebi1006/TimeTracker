@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { updateAttributesFree } from '../../utils/config';
+import { updateAttributesRequest } from '../../utils/config';
 
 export const AccountProfileDetails = (props) => {
   const [snackbar, setSnackbar] = useState({
@@ -68,7 +68,7 @@ export const AccountProfileDetails = (props) => {
     }),
     onSubmit: () => {
       setSubmit(true);
-      updateAttributesFree(
+      updateAttributesRequest(
         token,
         formik.values.firstName,
         formik.values.lastName,

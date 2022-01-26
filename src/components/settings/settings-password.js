@@ -13,7 +13,7 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { updatePasswordFree } from '../../utils/config';
+import { updatePasswordRequest } from '../../utils/config';
 
 export const SettingsPassword = (props) => {
   const [snackbar, setSnackbar] = useState({
@@ -75,7 +75,7 @@ export const SettingsPassword = (props) => {
     }),
     onSubmit: () => {
       setSubmit(true);
-      updatePasswordFree(email, formik.values.password, formik.values.confirm)
+      updatePasswordRequest(email, formik.values.password, formik.values.confirm)
         .then(() => {
           handleOpen(
             'Password has been updated successfully. Please sign in again with your new credentials.',

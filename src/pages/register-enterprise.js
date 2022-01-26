@@ -27,37 +27,37 @@ const RegisterEnterprise = () => {
     if (event.target.value < 100) {
       setPrice('');
     } else if (event.target.value >= 100 && event.target.value <= 500) {
-      setPrice('60€');
-    } else if (event.target.value > 500 && event.target.value <= 1000) {
-      setPrice('70€');
-    } else if (event.target.value > 1000 && event.target.value <= 5000) {
-      setPrice('85€');
-    } else if (event.target.value > 5000 && event.target.value <= 10000) {
-      setPrice('100€');
-    } else if (event.target.value > 10000 && event.target.value <= 20000) {
-      setPrice('120€');
-    } else if (event.target.value > 20000 && event.target.value <= 50000) {
       setPrice('150€');
-    } else if (event.target.value > 50000 && event.target.value <= 100000) {
+    } else if (event.target.value > 500 && event.target.value <= 1000) {
       setPrice('200€');
-    } else if (event.target.value > 100000 && event.target.value <= 200000) {
+    } else if (event.target.value > 1000 && event.target.value <= 5000) {
       setPrice('250€');
-    } else if (event.target.value > 200000 && event.target.value <= 300000) {
+    } else if (event.target.value > 5000 && event.target.value <= 10000) {
       setPrice('300€');
-    } else if (event.target.value > 300000 && event.target.value <= 400000) {
+    } else if (event.target.value > 10000 && event.target.value <= 20000) {
       setPrice('350€');
-    } else if (event.target.value > 400000 && event.target.value <= 500000) {
+    } else if (event.target.value > 20000 && event.target.value <= 50000) {
       setPrice('400€');
-    } else if (event.target.value > 500000 && event.target.value <= 600000) {
-      setPrice('450€');
-    } else if (event.target.value > 600000 && event.target.value <= 700000) {
+    } else if (event.target.value > 50000 && event.target.value <= 100000) {
       setPrice('500€');
-    } else if (event.target.value > 700000 && event.target.value <= 800000) {
-      setPrice('550€');
-    } else if (event.target.value > 800000 && event.target.value <= 900000) {
+    } else if (event.target.value > 100000 && event.target.value <= 200000) {
       setPrice('600€');
-    } else if (event.target.value > 900000 && event.target.value <= 1000000) {
+    } else if (event.target.value > 200000 && event.target.value <= 300000) {
       setPrice('700€');
+    } else if (event.target.value > 300000 && event.target.value <= 400000) {
+      setPrice('800€');
+    } else if (event.target.value > 400000 && event.target.value <= 500000) {
+      setPrice('900€');
+    } else if (event.target.value > 500000 && event.target.value <= 600000) {
+      setPrice('1000€');
+    } else if (event.target.value > 600000 && event.target.value <= 700000) {
+      setPrice('1200€');
+    } else if (event.target.value > 700000 && event.target.value <= 800000) {
+      setPrice('1500€');
+    } else if (event.target.value > 800000 && event.target.value <= 900000) {
+      setPrice('1750€');
+    } else if (event.target.value > 900000 && event.target.value <= 1000000) {
+      setPrice('2000€');
     } else {
       setPrice('');
     }

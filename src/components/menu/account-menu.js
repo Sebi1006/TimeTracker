@@ -10,7 +10,7 @@ import PermIdentity from '@mui/icons-material/PermIdentity';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import NextLink from 'next/link';
-import { getAvatar, signOutFree } from '../../utils/config';
+import { getAvatar, signOutRequest } from '../../utils/config';
 import { useEffect, useState } from 'react';
 
 export const AccountMenu = () => {
@@ -105,7 +105,7 @@ export const AccountMenu = () => {
             const token = JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH'));
 
             if (token !== null) {
-              signOutFree(token.accessToken);
+              signOutRequest(token.accessToken);
             }
           }}>
             <ListItemIcon>
