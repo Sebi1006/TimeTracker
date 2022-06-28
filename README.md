@@ -1,8 +1,10 @@
-# Frontend
+# Time Tracker Frontend
+
+This is the React frontend project of a cloud-native time tracking tool developed in the class Cloud Application Development at the University of Applied Sciences HTWG Konstanz. The time tracker app is able to track the working hours of each employee in an organization, is highly scalable and can easily be run in the cloud using providers such as AWS.
 
 ## Quick start
 
-- Make sure your NodeJS and npm versions are up to date for `React 17`
+- Make sure your NodeJS and npm versions are up-to-date for `React 17`
 
 - Install dependencies: `npm install` or `yarn`
 
